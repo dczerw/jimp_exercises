@@ -3,7 +3,7 @@
 //
 
 #include "Array2D.h"
-#include <iostream>;
+#include <iostream>
 using namespace std;
 int **Array2D(int n_rows, int n_columns)
 {
@@ -35,9 +35,9 @@ void Print(int **tab, int n_columns, int n_rows)
 }
 void DeleteArray2D(int **array, int n_rows, int n_columns)
 {
-    for(int i=0;i<n_columns;i++)
+    /*for(int i=0;i<n_columns;i++)
     {
         delete [] array[i];
-    }
+    }*/
     delete [] array;
 }

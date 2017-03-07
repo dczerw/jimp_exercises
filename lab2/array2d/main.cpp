@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     int n_columns, n_rows;
-    cout<<"Podaj ilosc kolun"<<endl;
+    cout<<"Podaj ilosc kolumn"<<endl;
     cin>>n_columns;
     cout<<"Podaj ilosc wierszy"<<endl;
     cin>>n_rows;
