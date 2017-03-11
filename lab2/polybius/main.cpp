@@ -2,43 +2,33 @@
 // Created by dawid on 07.03.17.
 //
 
-#include <iostream>
 #include "Polybius.h"
+#include <iostream>
+#include <fstream>
+
 using namespace std;
-int main(int argc, char **argv) {
-/*
-if (argv[1]==1)
+
+int main(int argc, char** argv)
 {
-    ifstream myfile(argv[2]);
-    ofstream myfilesave (argv[3], ios_base::in | ios_base::app);
+
+
+    ifstream file_read("file1.txt");
+    ofstream file_save ("file2.txt", ios_base::in | ios_base::app);
     string word;
+    string saved_file;
 
-    if(!myfile)
-        cout << "Nie można otworzyć pliku!" << endl;
+    if(!file_read or !file_save) cout << "Nie można otworzyć pliku!" << endl;
 
-    while(myfile >> word)
-    {
-        myfilesave << PolybiusDecrypt(word);
-    }
+    while(file_read >> word) file_save<<PolybiusCrypt(word);
 
-
+    file_read.close();
+    file_save.close();
 
 
-    myfilesave.close();
-    myfile.close();
+    cout<<PolybiusDecrypt("4313244331154411243315");
+
+
     return 0;
 }
-    else if(argv[1]==0)
-{
-    //odszyfr
-}
-    else
-{
-    cout<<"0 albo 1"<<endl;
-}
-*/
-string message="3245334455";
-    cout<<PolybiusDecrypt(message);
 
-return 0;
-}
+
