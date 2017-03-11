@@ -6,39 +6,39 @@
 #include "Polybius.h"
 using namespace std;
 int main(int argc, char **argv) {
-    string input_file=argc[0],output_file=argc[1];
-    int choice=argc[2];
-    if(choice==1)
+/*
+if (argv[1]==1)
+{
+    ifstream myfile(argv[2]);
+    ofstream myfilesave (argv[3], ios_base::in | ios_base::app);
+    string word;
+
+    if(!myfile)
+        cout << "Nie można otworzyć pliku!" << endl;
+
+    while(myfile >> word)
     {
-        ifstream myfile(input_file);
-        char word[64];
-
-        if(!myfile)
-            cout << "Nie można otworzyć pliku!" << endl;
-
-        while(myfile >> word){
-            PolybiusCrypt(word);
-            ofstream myfileout (output_file, ios_base::in | ios_base::app);
-
-            if(!myfile)
-                cout << "Nie można otworzyć pliku!" << endl;
-
-            myfileout << word<< endl;
-
-
-
-        }
-        }
-
-
-        myfile.close();
-        return 0;
+        myfilesave << PolybiusDecrypt(word);
     }
+
+
+
+
+    myfilesave.close();
+    myfile.close();
+    return 0;
+}
+    else if(argv[1]==0)
+{
+    //odszyfr
+}
     else
-    {
+{
+    cout<<"0 albo 1"<<endl;
+}
+*/
+string message="3245334455";
+    cout<<PolybiusDecrypt(message);
 
-    }
-
-
-
+return 0;
 }
