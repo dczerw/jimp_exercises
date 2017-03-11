@@ -53,7 +53,7 @@ string PolybiusCrypt(string message)
 string PolybiusDecrypt(string crypted)
 {
     string decrypted;
-    for(int i=0; i<crypted.size()+1;i+=2 )
+    for(int i=0; i<crypted.size();i+=2 )
     {
         string letter;
         letter+=crypted[i];
@@ -77,7 +77,7 @@ string PolybiusDecryptLetter(string crypted)
                                          {22, 'g'},
                                          {23, 'h'},
                                          {24, 'i'},
-                                         {25, 'j'},
+                                         {24, 'j'},
                                          {25, 'k'},
                                          {31, 'l'},
                                          {32, 'm'},
