@@ -17,5 +17,6 @@ int GreatestProduct(const std::vector<int> &numbers, int k)
             }
         }
     }
+
     return another_vector[2];
 }
