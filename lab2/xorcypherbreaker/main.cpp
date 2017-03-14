@@ -99,5 +99,5 @@ int main() {
                            60, 11, 9, 79, 11, 1, 79, 16, 15, 10, 68, 33, 14, 16, 15, 10, 22, 73};
 
 
-    XorCypherBreaker(message, 3, dictionary);
+    cout<<XorCypherBreaker(message, 3, dictionary);
 }
