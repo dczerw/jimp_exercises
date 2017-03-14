@@ -12,4 +12,5 @@ std::string XorCypherBreaker(const vector<char> &cryptogram,
                              int key_length,
                              const vector<string> &dictionary);
 void PrintVector(const vector<char> &v);
+
 #endif //JIMP_EXERCISES_XORCYPHERBREAKER_H

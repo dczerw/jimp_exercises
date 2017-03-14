@@ -6,7 +6,7 @@
 using namespace std;
 int main() {
     const vector<string> dictionary{"the", "of"};
-   // const vector<char> message={7,1,1,20,30,40,14,2,2,7,2,3,1,2,3,9};
+   //const vector<char> message={7,1,1,20,30,40,14,2,2,7,2,3,1,2,3,9};
 
     const vector<char> message = {79, 59, 12, 2, 79, 35, 8, 28, 20, 2, 3, 68, 8, 9, 68, 45, 0, 12, 9, 67, 68, 4, 7, 5, 23, 27,
                            1, 21,
@@ -97,6 +97,7 @@ int main() {
                            0, 22, 30, 67, 68, 19, 7, 1, 71, 8, 8, 8, 29, 29, 71, 0, 2, 71, 27, 12, 2, 79, 11, 9, 3, 29,
                            71,
                            60, 11, 9, 79, 11, 1, 79, 16, 15, 10, 68, 33, 14, 16, 15, 10, 22, 73};
+
 
     XorCypherBreaker(message, 3, dictionary);
 }
