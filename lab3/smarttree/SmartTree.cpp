@@ -4,7 +4,7 @@
 
 #include "SmartTree.h"
 
-namespace smarttree
+namespace datastructures
 {
 
 }
