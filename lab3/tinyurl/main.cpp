@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 //std::array<char, 6> table {'0', '0', '0', '0', '0', '0'};
 
 int main()
@@ -18,5 +19,6 @@ int main()
     cout<<movie_shortened<<endl;
     cout<<tinyurl::Decode(codec, voronoi_shortened)<<endl;
     cout<<tinyurl::Decode(codec, movie_shortened)<<endl;
+
     return 0;
 }

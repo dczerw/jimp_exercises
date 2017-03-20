@@ -41,4 +41,37 @@ namespace datastructures
         }
     }
 
+    void PrintTreeInOrderToString(const std::unique_ptr<SmartTree> &unique_ptr, std::string *string_tree)
+    {
+        int n=32;
+        if((*string_tree).size()!=0) n = (*string_tree)[(*string_tree).size()-1];
+        if(unique_ptr!= nullptr)
+        {
+            if(n==93) *string_tree+= " ";
+            *string_tree += "[";
+            *string_tree += std::to_string(unique_ptr->value);
+            *string_tree += " ";
+            PrintTreeInOrderToString(unique_ptr->left, string_tree);
+            PrintTreeInOrderToString(unique_ptr->right, string_tree);
+            *string_tree += "]";
+        }
+        else
+        {
+            //*string_tree += " [none]";
+            //int n = (*string_tree)[(*string_tree).size()-1];
+            //std::cout<<n<<std::endl;
+            if(n==32) *string_tree+= "[none]";
+            else *string_tree += " [none]";
+            //std::cout<<(*string_tree)[(*string_tree).size()]<<std::endl;
+            //if((*string_tree)[(*string_tree).size()]==" ") *string_tree += "[none]";
+        }
+    }
+
+    std::string DumpTree(const std::unique_ptr<SmartTree> &tree)
+    {
+        std::string string_tree;
+        PrintTreeInOrderToString(tree, &string_tree);
+        return string_tree;
+    }
+
 }
