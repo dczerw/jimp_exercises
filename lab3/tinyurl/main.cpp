@@ -12,12 +12,11 @@ using namespace std;
 int main()
 {
     auto codec = tinyurl::Init();
-    for(int i=0; i<1000; i++) {
-        auto voronoi_shortened = tinyurl::Encode("https://en.wikipedia.org/wiki/Voronoi_diagram", &codec);
-        cout<<tinyurl::GetDecimalFrom62System(&codec)<<endl;
-    }
-    //auto movie_shortened = tinyurl::Encode("https://www.youtube.com/watch?v=cWDdd5KKhts", &codec);
-    //cout<<tinyurl::GetDecimalFrom62System(&codec)<<endl;
-
+    auto voronoi_shortened = tinyurl::Encode("https://en.wikipedia.org/wiki/Voronoi_diagram", &codec);
+    auto movie_shortened = tinyurl::Encode("https://www.youtube.com/watch?v=cWDdd5KKhts", &codec);
+    cout<<voronoi_shortened<<endl;
+    cout<<movie_shortened<<endl;
+    cout<<tinyurl::Decode(codec, voronoi_shortened)<<endl;
+    cout<<tinyurl::Decode(codec, movie_shortened)<<endl;
     return 0;
 }

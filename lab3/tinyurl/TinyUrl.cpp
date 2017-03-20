@@ -38,13 +38,21 @@ namespace tinyurl {
         for (auto character : (*codec)->hash_array) {
                 hash+=character;
         }
+        (*codec)->url[GetDecimalFrom62System(codec)]=url;
         NextHash(&((*codec)->hash_array));
         return hash;
     }
 
     std::string Decode(const std::unique_ptr<TinyUrlCodec> &codec, const std::string &hash)
     {
-        
+        int decimal=0;
+        for(int i=5; i>=0; i--)
+        {
+            if(hash[i] >= 48 and hash[i]<=57) decimal+=(hash[i]-48)*pow(62,5-i);
+            else if (hash[i] >= 65 and hash[i]<=90) decimal+=(hash[i]-48-7)*pow(62,5-i);
+            else if(hash[i] >= 97 and (hash[i]<=122)) decimal+=(hash[i]-48-13)*pow(62,5-i);
+        }
+        return (*codec).url[decimal];
 
     }
 
@@ -53,10 +61,9 @@ namespace tinyurl {
         int decimal=0;
         for(int i=5; i>=0; i--)
         {
-            if((*codec)->hash_array[i] >= 48 and (*codec)->hash_array[i]<=57) decimal+=((*codec)->hash_array[i]-48)*pow(10,5-i);
-            //std::cout<<decimal<<std::endl;
-            else if ((*codec)->hash_array[i] >= 65 and (*codec)->hash_array[i]<=90) decimal+=((*codec)->hash_array[i]-48-7)*pow(10,5-i);
-            else if((*codec)->hash_array[i] >= 97 and (*codec)->hash_array[i]<=122) decimal+=((*codec)->hash_array[i]-48-13)*pow(10,5-i);
+            if((*codec)->hash_array[i] >= 48 and (*codec)->hash_array[i]<=57) decimal+=((*codec)->hash_array[i]-48)*pow(62,5-i);
+            else if ((*codec)->hash_array[i] >= 65 and (*codec)->hash_array[i]<=90) decimal+=((*codec)->hash_array[i]-48-7)*pow(62,5-i);
+            else if((*codec)->hash_array[i] >= 97 and (*codec)->hash_array[i]<=122) decimal+=((*codec)->hash_array[i]-48-13)*pow(62,5-i);
         }
         return decimal;
     }
