@@ -8,6 +8,7 @@
 #include <ostream>
 #include <string>
 #include <memory>
+#include <iostream>
 
 namespace datastructures
 {
@@ -15,7 +16,7 @@ namespace datastructures
     struct SmartTree
     {
         int value;
-        std::unique_ptr <SmartTree> parent;
+        //std::unique_ptr <SmartTree> parent;
         std::unique_ptr <SmartTree> right;
         std::unique_ptr <SmartTree> left;
 
