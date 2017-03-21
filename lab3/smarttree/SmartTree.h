@@ -9,6 +9,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <sstream>
 
 namespace datastructures
 {
@@ -16,7 +17,6 @@ namespace datastructures
     struct SmartTree
     {
         int value;
-        //std::unique_ptr <SmartTree> parent;
         std::unique_ptr <SmartTree> right;
         std::unique_ptr <SmartTree> left;
 
@@ -28,6 +28,7 @@ namespace datastructures
     void PrintTreeInOrderToString(const std::unique_ptr<SmartTree> &unique_ptr, std::string *string_tree);
     std::string DumpTree(const std::unique_ptr<SmartTree> &tree);
     std::unique_ptr <SmartTree> RestoreTree(const std::string &tree);
+    std::unique_ptr <SmartTree> RestoreTreeAddonRecursive(const std::string &tree, int *iterator);
 
 }
 

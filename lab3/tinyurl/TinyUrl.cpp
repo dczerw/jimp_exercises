@@ -33,7 +33,6 @@ namespace tinyurl {
 
     std::string Encode(const std::string &url, std::unique_ptr<TinyUrlCodec> *codec)
     {
-
         std::string hash;
         for (auto character : (*codec)->hash_array) {
                 hash+=character;

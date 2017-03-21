@@ -11,7 +11,6 @@
 #include <array>
 #include <memory>
 
-//extern std::array<char, 6> table;
 
 namespace tinyurl {
 

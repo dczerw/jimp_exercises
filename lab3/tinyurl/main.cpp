@@ -7,9 +7,6 @@
 
 using namespace std;
 
-
-//std::array<char, 6> table {'0', '0', '0', '0', '0', '0'};
-
 int main()
 {
     auto codec = tinyurl::Init();
