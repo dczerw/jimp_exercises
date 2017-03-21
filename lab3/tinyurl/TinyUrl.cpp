@@ -37,7 +37,7 @@ namespace tinyurl {
         for (auto character : (*codec)->hash_array) {
                 hash+=character;
         }
-        (*codec)->url[GetDecimalFrom62System(codec)]=url;
+        (*codec)->url.emplace_back(url);
         NextHash(&((*codec)->hash_array));
         return hash;
     }

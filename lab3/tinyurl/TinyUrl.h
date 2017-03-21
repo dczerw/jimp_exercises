@@ -10,12 +10,13 @@
 #include <string>
 #include <array>
 #include <memory>
+#include <vector>
 
 
 namespace tinyurl {
 
     struct TinyUrlCodec {
-        std::string url[1000];
+        std::vector<std::string> url;
         std::array<char, 6> hash_array;
     };
 
