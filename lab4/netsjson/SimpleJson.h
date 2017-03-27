@@ -9,6 +9,8 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <vector>
+
 
 namespace nets{
     class JsonValue
@@ -25,11 +27,7 @@ namespace nets{
         float value_float;
         std::string value_string;
         bool value_bool;
-
-
-
-
-        std::string type;
+        std::vector<JsonValue>
 
     public:
 

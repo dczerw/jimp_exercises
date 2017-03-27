@@ -28,17 +28,28 @@ namespace nets
             {
                i+=2;
                 word="";
-                while(text_[i]!='}' or text_[i+1]!='}')
+                while(true)
                 {
+                    if(text_[i]=='}' and text_[i+1]=='}') break;
                     word+=text_[i];
                     if(text_[i]!='\0') i++;
                 }
-                sentence+=model.find(word)->second;
+
+                auto search = model.find(word);
+                if(search != model.end()) {
+                    sentence+=search->second;
+                }
+                //sentence+=model.find(word)->second;
                 i+=2;
             }
+
             sentence+=text_[i];
-            i++;
+            if(text_[i]!='\0') i++;
+
         }
+        int size = sentence.size();
+        if(sentence[size-1]=='\0')  sentence.pop_back();
+
 
         return sentence;
     }

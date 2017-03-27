@@ -6,15 +6,11 @@
 #include <iostream>
 #include <map>
 
-
-
-
-
 int main()
 {
 
-    std::unordered_map<std::string, std::string> map = {{"name", "Xavier"}};
-    nets::View view{"Hello {{name}}!"};
+    std::unordered_map<std::string, std::string> map = {{"test", "888"}};
+    nets::View view{"test 888 of {test} but {{test} or {test}} and {888}"};
     std::cout<<view.Render(map);
 
     return 0;
