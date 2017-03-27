@@ -21,26 +21,29 @@ namespace nets
 
         std::string sentence, word;
         std::string key;
-        int i=0;
+        int i=0, j=0;
         while(text_[i]!='\0')
         {
-            if(text_[i]=='{' and text_[i+1]=='{')
+            if(text_[i]=='{' and text_[i+1]=='{' and text_[i+2]!='{')
             {
                i+=2;
                 word="";
-                while(true)
+                while(text_[i]!='}')
                 {
-                    if(text_[i]=='}' and text_[i+1]=='}') break;
                     word+=text_[i];
                     if(text_[i]!='\0') i++;
                 }
-
-                auto search = model.find(word);
-                if(search != model.end()) {
-                    sentence+=search->second;
+                if(text_[i+1]!='}')
+                {
+                    sentence+="{{"+word+text_[i]+text_[i+1];
                 }
-                //sentence+=model.find(word)->second;
-                i+=2;
+                else {
+                    auto search = model.find(word);
+                    if (search != model.end()) {
+                        sentence += search->second;
+                    }
+                }
+                    i += 2;
             }
 
             sentence+=text_[i];
