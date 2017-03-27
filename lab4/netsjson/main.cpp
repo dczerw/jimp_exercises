@@ -18,6 +18,7 @@ using ::std::literals::operator""s;
 
 int main() {
 /*
+
     vector<JsonValue> js {JsonValue{56.6},JsonValue{45},JsonValue{"abc"s}};
     map<string, JsonValue> obj_v {{"values",JsonValue{js}},{"name",JsonValue{"Test name"}},{"age",JsonValue{13}}};
     JsonValue obj {obj_v};
@@ -33,5 +34,10 @@ int main() {
     } else {
         cout << "is absent" << endl;
     }
-    */
+
+*/
+
+    nets::JsonValue test(56);
+    cout<<test.ToString()<<endl;
+
 }
