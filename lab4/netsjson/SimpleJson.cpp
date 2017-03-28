@@ -6,6 +6,25 @@
 
 namespace nets
 {
+
+    std::string escape(std::string to_escape) {
+
+        std::string correct="";
+        int i=0;
+        while(to_escape[i]!='\0')
+        {
+            //correct+=value_string[i];
+            if(to_escape[i]=='\\') correct+='\\';
+            if(to_escape[i]=='\"') correct+='\\';
+            correct+=to_escape[i];
+            i++;
+        }
+
+
+
+        return correct;
+    }
+
     JsonValue::JsonValue(const int &value) {
     value_int=value;
         type=1;
@@ -67,18 +86,9 @@ namespace nets
             }
             case 3:
             {
-                std::string correct;
-                int i=0;
-                while(value_string[i]!='\0')
-                {
-                    //correct+=value_string[i];
-                    if(value_string[i]=='\\') correct+='\\';
-                    if(value_string[i]=='\"') correct+='\\';
-                    correct+=value_string[i];
-                    i++;
-                }
-
-
+                std::string correct="\"";
+               correct+=escape(value_string);
+                correct+="\"";
                 return correct;
             }
             case 4:
@@ -99,17 +109,16 @@ namespace nets
             }
             case 6:
             {
-                std::string correct = "[";
+                std::string correct = "";
                     for (auto n: value_map) {
                         correct += '{';
-                        correct += n.first;
-                        correct += ':';
+                        correct += escape(n.first);
+                        correct += ": ";
                         correct += n.second.ToString();
                         correct += "}, ";
                     }
                     correct.pop_back();
                 correct.pop_back();
-                correct+="]\0";
 
                 return correct;
             }

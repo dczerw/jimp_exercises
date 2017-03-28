@@ -18,7 +18,7 @@ using ::std::literals::operator""s;
 
 int main() {
 
-    nets::JsonValue js{R"(\\\\\\"http:\\\\\\"klmno)"s};
+    nets::JsonValue js{R"("abc")"s};
     cout<<js.ToString()<<endl;
 
     /*

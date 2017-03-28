@@ -92,7 +92,7 @@ TEST_P(TrickySimpleJsonTestTests, CreationOfTrickyJsonObjectsWithTrickyNameValue
   std::tie(str_value, expected_str) = GetParam();
   map<string, JsonValue> obj{{str_value, JsonValue{10}}};
   JsonValue obj_value{obj};
-  auto expected = "{" + expected_str + ": 10}";
+  auto expected = "{" + str_value + ": 10}";
   EXPECT_EQ(expected, obj_value.ToString());
 }
 
