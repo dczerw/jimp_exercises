@@ -26,7 +26,7 @@ namespace nets{
         std::vector<nets::JsonValue> value_vector;
         std::map<std::string, nets::JsonValue> value_map;
 
-        int type;
+        int type; // 1-int 2-double 3-string 4-bool 5-vector 6-map
 
     public:
 
