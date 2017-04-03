@@ -26,9 +26,9 @@ namespace pool
         //2. konstruktor przenoszący
         TextPool(TextPool &&textpool)=default;
         //3. operator przypisania kopiujący
-       // TextPool &operator=(const TextPool &textpool);
+        TextPool &operator=(const TextPool &textpool) = delete;
         //4. operator przypisania przenoszący
-       // TextPool &operator=(TextPool &&textpool);
+        TextPool &operator=(TextPool &&textpool) = default;
         //5. Destruktor
         //~TextPool();
         std::experimental::string_view Intern(const std::string &str);
