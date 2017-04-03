@@ -232,4 +232,12 @@ namespace algebra
         }
         return m;
     }
+
+    std::pair<int, int> Matrix::Size()
+    {
+        std::pair<int, int> size;
+        size = {n_rows_, n_columns_};
+
+        return size;
+    }
 }

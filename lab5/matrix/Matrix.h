@@ -39,6 +39,7 @@ namespace algebra
         Matrix mul(Matrix m2);
         Matrix div(std::complex<double> number);
         Matrix pow(int value);
+        std::pair<int, int> Size();
     };
 
     std::string doubleToString(double value);

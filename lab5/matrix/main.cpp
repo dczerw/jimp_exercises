@@ -10,7 +10,7 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 
-    algebra::Matrix m1("[1i3 2i5 3; 3 4 5; 6 7 8]");
+    algebra::Matrix m1("[1 2 3; 3 4 5; 6 7 8]");
     algebra::Matrix m2("[3 2 1; 5 4 3; 7 6 5]");
 
     cout << "Macierz pierwsza: " << endl << m1.print() << endl;
