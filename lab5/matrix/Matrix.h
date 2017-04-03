@@ -10,7 +10,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
-
+#include <list>
 
 
 
@@ -22,6 +22,7 @@ namespace algebra
     private:
 
         std::complex<double> **matrix_;
+        std::vector<std::complex<double>> elements_;
         int n_columns_, n_rows_;
 
 
@@ -29,7 +30,8 @@ namespace algebra
         Matrix(); // bezparametryczny
         Matrix(std::string matlab); //parametryczny matlab
         Matrix(int n_rows, int n_columns); // parametryczny rozmiar
-        Matrix(const Matrix &matrix);
+        Matrix(const Matrix &matrix); // kopiujacy
+        Matrix(const std::initializer_list<std::vector<std::complex<double>>> notation_list);
         std::complex<double> GetElement(int n_rows, int n_columns);
         void SetElement(int n_rows, int n_columns, std::complex<double> element);
         std::string print();

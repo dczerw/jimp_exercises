@@ -233,11 +233,16 @@ namespace algebra
         return m;
     }
 
-    std::pair<int, int> Matrix::Size()
-    {
+    std::pair<int, int> Matrix::Size() {
         std::pair<int, int> size;
         size = {n_rows_, n_columns_};
 
         return size;
     }
+
+    Matrix::Matrix(const std::initializer_list<std::vector<std::complex<double>>> &notation_list) : elements_{notation_list}
+    {
+
+    }
+
 }
