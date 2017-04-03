@@ -27,7 +27,6 @@ namespace pool
 
 
 
-
 /*
     TextPool &TextPool::operator=(const TextPool &textpool) {
         return <#initializer#>;
