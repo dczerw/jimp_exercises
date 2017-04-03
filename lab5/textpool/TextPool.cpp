@@ -24,4 +24,20 @@ namespace pool
     size_t TextPool::StoredStringCount() const {
         return pool_.size();
     }
+
+
+
+
+/*
+    TextPool &TextPool::operator=(const TextPool &textpool) {
+        return <#initializer#>;
+    }
+
+    TextPool &TextPool::operator=(TextPool &&textpool) {
+        return <#initializer#>;
+    }
+
+    TextPool::~TextPool() {
+
+    }*/
 }
