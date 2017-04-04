@@ -319,30 +319,4 @@ namespace algebra
         return *this;
     }
 
-    Matrix &Matrix::operator=(Matrix &&matrix)
-    {
-        for(int i=0;i<n_rows_;i++)
-        {
-            delete [] matrix_[i];
-        }
-        delete [] matrix_;
-
-        n_rows_=matrix.n_rows_;
-        n_columns_=matrix.n_columns_;
-
-        matrix_ = new std::complex<double> *[n_rows_];
-
-        for (int i = 0; i < n_rows_; i++) {
-            matrix_[i] = new std::complex<double>[n_columns_];
-        }
-
-        for (int i = 0; i < n_rows_; i++) {
-            for (int j = 0; j < n_columns_; j++) {
-                matrix_[i][j] = matrix.matrix_[i][j];
-            }
-        }
-
-        return *this;
-    }
-
 }

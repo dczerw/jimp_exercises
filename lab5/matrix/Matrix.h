@@ -32,7 +32,6 @@ namespace algebra
         Matrix(const Matrix &matrix); // kopiujacy
         //3. operator przypisania kopiujący
         Matrix &operator=(const Matrix &matrix);
-        Matrix &operator=(Matrix &&matrix); // przypisania przenoszacy
         Matrix(const std::initializer_list<std::vector<std::complex<double>>> &elements);
         ~Matrix();
         std::complex<double> GetElement(int n_rows, int n_columns);
