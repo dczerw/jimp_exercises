@@ -8,7 +8,8 @@ namespace algebra
 {
     Matrix::Matrix()
     {
-
+        n_columns_=0;
+        n_rows_=0;
     }
 
     Matrix::Matrix(std::string matlab) {
@@ -41,12 +42,8 @@ namespace algebra
             i++;
         }
 
-
         n_columns_ = n_columns_/n_rows_;
-        //n_rows++;
         n_columns_++;
-
-
 
         matrix_ = new std::complex<double> *[n_rows_];
 
@@ -57,9 +54,7 @@ namespace algebra
         for (int i = 0; i < n_rows_; i++) {
             for (int j = 0; j < n_columns_; j++) {
                 matrix_[i][j] = objects[n];
-                //std::cout<<matrix_[i][j]<<std::endl;
                 n++;
-
             }
         }
     }
@@ -78,7 +73,6 @@ namespace algebra
         for (int i = 0; i < n_rows_; i++) {
             for (int j = 0; j < n_columns_; j++) {
                 matrix_[i][j] = matrix.matrix_[i][j];
-                //std::cout<<matrix_[i][j]<<std::endl;
             }
         }
     }
@@ -86,7 +80,6 @@ namespace algebra
     std::complex<double> Matrix::GetElement(int n_rows, int n_columns)
     {
         std::complex<double> element=matrix_[n_rows][n_columns];
-
         return element;
     }
 
@@ -110,7 +103,6 @@ namespace algebra
                 for (int j = 0; j < n_columns; j++)
                 {
                     matrix_[i][j] = 0;
-                    //std::cout<<matrix_[i][j]<<std::endl;
                 }
             }
     }
@@ -155,14 +147,11 @@ namespace algebra
         return m2;
     }
 
-    Matrix Matrix::Mul(Matrix m2)
+    Matrix Matrix::Mul(const Matrix &m2) const
     {
         if(n_columns_!=m2.n_rows_)
         {
-            Matrix answer{};
-            std::cout<<"test";
-            return answer;
-            //return Matrix();
+            return Matrix(0,0);
         }
         else
         {
@@ -197,24 +186,24 @@ namespace algebra
     std::string Matrix::Print() const
     {
         if(n_columns_==0 and n_rows_==0) return "[]";
-        std::string matrix="[";
+        std::string matrix = "[";
         for(int i=0; i<n_rows_; i++)
         {
             for(int j=0; j<n_columns_; j++)
             {
-                matrix+=algebra::doubleToString(matrix_[i][j].real());
-                    matrix+="i"+algebra::doubleToString(matrix_[i][j].imag());
-                matrix+=", ";
+                matrix += algebra::doubleToString(matrix_[i][j].real());
+                matrix += 'i';
+                matrix += algebra::doubleToString(matrix_[i][j].imag());
+                matrix += ", ";
             }
-            matrix.pop_back();
-            matrix.pop_back();
-            matrix+="; ";
+            matrix.erase(matrix.length()-2,2);
+            matrix+= "; ";
         }
-        matrix.pop_back();
-        matrix.pop_back();
-        matrix.pop_back();
-        matrix+=algebra::doubleToString(matrix_[n_rows_-1][n_columns_-1].imag());
-        return matrix+"]";
+        matrix.erase(matrix.length()-2,2);
+        matrix+= ']';
+
+        return matrix;
+
     }
 
     std::string doubleToString(double value)
@@ -225,20 +214,36 @@ namespace algebra
         return str;
     }
 
-    Matrix Matrix::Pow(int value)
+    Matrix Matrix::Pow(int value) const
     {
-        algebra::Matrix m=*this;
-        for(int i=1; i<value; i++)
+        if(n_columns_!=n_rows_) return Matrix(0,0);
+        if(value ==0)
         {
-            m=m.Mul(*this);
+            algebra::Matrix n(n_columns_,n_rows_);
+            int i=0,j=0;
+            while(i<n_columns_)
+            {
+                n.matrix_[i][j]=1;
+                i++;
+                j++;
+            }
+            return n;
         }
-        return m;
+        if(value==1) return *this;
+        algebra::Matrix p = *this;
+        algebra::Matrix to_pow = *this;
+        for(int i=1; i<=value; i++)
+        {
+            algebra::Matrix w = to_pow.Mul(*this);
+            algebra::Matrix to_pow = w;
+            if(i==value-1) return to_pow;
+        }
+
     }
 
-    std::pair<long unsigned int, long unsigned int> Matrix::Size() {
+    std::pair<long unsigned int, long unsigned int> Matrix::Size() const {
         std::pair<long unsigned int,long unsigned int> size;
         size = {n_rows_, n_columns_};
-
         return size;
     }
 
@@ -261,10 +266,6 @@ namespace algebra
         }
 
         n_columns_ = n_columns_/n_rows_;
-        //n_rows++;
-        //n_columns_++;
-
-        //std::cout<<n_columns_<<" "<<n_rows_<<std::endl;
 
         matrix_ = new std::complex<double> *[n_rows_];
 
@@ -276,11 +277,9 @@ namespace algebra
         for (int i = 0; i < n_rows_; i++) {
             for (int j = 0; j < n_columns_; j++) {
                 matrix_[i][j] = objects[n];
-                //std::cout<<matrix_[i][j]<<std::endl;
                 n++;
             }
         }
-
     }
 
     Matrix::~Matrix()
@@ -291,4 +290,60 @@ namespace algebra
         }
         delete [] matrix_;
     }
+
+    Matrix &Matrix::operator=(const Matrix &matrix)
+    {
+
+        for(int i=0;i<n_rows_;i++)
+        {
+            delete [] matrix_[i];
+        }
+        delete [] matrix_;
+
+        n_rows_=matrix.n_rows_;
+        n_columns_=matrix.n_columns_;
+
+        matrix_ = new std::complex<double> *[n_rows_];
+
+        for (int i = 0; i < n_rows_; i++) {
+            matrix_[i] = new std::complex<double>[n_columns_];
+        }
+
+        for (int i = 0; i < n_rows_; i++) {
+            for (int j = 0; j < n_columns_; j++) {
+                matrix_[i][j] = matrix.matrix_[i][j];
+                //std::cout<<matrix_[i][j]<<std::endl;
+            }
+        }
+
+        return *this;
+    }
+
+    Matrix &Matrix::operator=(Matrix &&matrix)
+    {
+        for(int i=0;i<n_rows_;i++)
+        {
+            delete [] matrix_[i];
+        }
+        delete [] matrix_;
+
+        n_rows_=matrix.n_rows_;
+        n_columns_=matrix.n_columns_;
+
+        matrix_ = new std::complex<double> *[n_rows_];
+
+        for (int i = 0; i < n_rows_; i++) {
+            matrix_[i] = new std::complex<double>[n_columns_];
+        }
+
+        for (int i = 0; i < n_rows_; i++) {
+            for (int j = 0; j < n_columns_; j++) {
+                matrix_[i][j] = matrix.matrix_[i][j];
+                //std::cout<<matrix_[i][j]<<std::endl;
+            }
+        }
+
+        return *this;
+    }
+
 }

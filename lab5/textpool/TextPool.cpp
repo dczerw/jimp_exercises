@@ -27,7 +27,6 @@ namespace pool
         str_to_return = pool_[pool_.size()-1];
 
         return str_to_return;
-        //pool_[pool_.size()-1];
     }
 
     size_t TextPool::StoredStringCount() const {
@@ -57,17 +56,23 @@ namespace pool
         //return <#initializer#>;
     }
 
+    TextPool::TextPool(const std::initializer_list<std::string> &elements) : pool_{elements} {
 
-/*
-    TextPool &TextPool::operator=(const TextPool &textpool) {
-        return <#initializer#>;
-    }
 
-    TextPool &TextPool::operator=(TextPool &&textpool) {
-        return <#initializer#>;
-    }
+            for(int i=0; i<pool_.size()-1; i++)
+            {
+                for(int j=i+1; j<pool_.size(); j++)
+                {
+                    if(pool_[i]==pool_[j])
+                    {
+                        pool_.erase(pool_.begin() + j-1);
+                    }
+                }
+            }
 
-    TextPool::~TextPool() {
+        }
 
-    }*/
+
+
+
 }

@@ -11,10 +11,6 @@ using namespace algebra;
 
 int main(int argc, char* argv[])
 {
-
-    Matrix m1{{1.0i}, {1.0i}};
-    Matrix m2{{7. + 1.0i, 3.2}, {0. + 3.9i, 1.0i}, {1.6 + 2.11i, 0. + 3.5i}};
-    cout<<m2.Size().first;
-    cout<<m2.Size().second;
-
+    Matrix pauli{{2., 3.}, {1., 4.}};
+    cout<<(pauli.Pow(5)).Print();
 }

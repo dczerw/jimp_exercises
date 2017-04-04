@@ -33,23 +33,7 @@ namespace pool
         ~TextPool();
         std::experimental::string_view Intern(const std::string &str);
         size_t StoredStringCount() const;
-        TextPool(const std::initializer_list<std::string> &elements) : pool_{elements} {
-
-            int index=-1;
-            int size=0;
-
-            for(int i=0; i<pool_.size()-1; i++)
-            {
-                for(int j=i+1; j<pool_.size(); j++)
-                {
-                    if(pool_[i]==pool_[j])
-                    {
-                        pool_.erase(pool_.begin() + j-1);
-                    }
-                }
-            }
-
-        }
+        TextPool(const std::initializer_list<std::string> &elements);
 
     };
 
