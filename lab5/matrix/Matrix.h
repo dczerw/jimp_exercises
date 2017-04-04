@@ -22,7 +22,6 @@ namespace algebra
     private:
 
         std::complex<double> **matrix_;
-        std::vector<std::complex<double>> elements_;
         int n_columns_, n_rows_;
 
 
@@ -32,16 +31,17 @@ namespace algebra
         Matrix(int n_rows, int n_columns); // parametryczny rozmiar
         Matrix(const Matrix &matrix); // kopiujacy
         Matrix(const std::initializer_list<std::vector<std::complex<double>>> &elements);
+        ~Matrix();
         std::complex<double> GetElement(int n_rows, int n_columns);
         void SetElement(int n_rows, int n_columns, std::complex<double> element);
-        std::string print();
-        Matrix add(Matrix m2);
-        Matrix sub(Matrix m2);
-        Matrix mul(std::complex<double> number);
-        Matrix mul(Matrix m2);
-        Matrix div(std::complex<double> number);
-        Matrix pow(int value);
-        std::pair<int, int> Size();
+        std::string Print() const;
+        Matrix Add(const Matrix &m2) const;
+        Matrix Sub(Matrix m2);
+        Matrix Mul(std::complex<double> number);
+        Matrix Mul(Matrix m2);
+        Matrix Div(std::complex<double> number);
+        Matrix Pow(int value);
+        std::pair<long unsigned int, long unsigned int> Size();
     };
 
     std::string doubleToString(double value);

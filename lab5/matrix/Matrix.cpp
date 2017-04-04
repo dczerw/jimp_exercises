@@ -8,7 +8,7 @@ namespace algebra
 {
     Matrix::Matrix()
     {
-        ;
+
     }
 
     Matrix::Matrix(std::string matlab) {
@@ -115,7 +115,7 @@ namespace algebra
             }
     }
 
-    Matrix Matrix::add(Matrix m2)
+    Matrix Matrix::Add(const Matrix &m2) const
     {
         Matrix m3(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -128,7 +128,7 @@ namespace algebra
         return m3;
     }
 
-    Matrix Matrix::sub(Matrix m2)
+    Matrix Matrix::Sub(Matrix m2)
     {
         Matrix m3(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -141,7 +141,7 @@ namespace algebra
         return m3;
     }
 
-    Matrix Matrix::mul(std::complex<double> number)
+    Matrix Matrix::Mul(std::complex<double> number)
     {
         Matrix m2(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -155,12 +155,14 @@ namespace algebra
         return m2;
     }
 
-    Matrix Matrix::mul(Matrix m2)
+    Matrix Matrix::Mul(Matrix m2)
     {
         if(n_columns_!=m2.n_rows_)
         {
-            std::cout<<"Zle wymiary"<<std::endl;
-            return Matrix();
+            Matrix answer{};
+            std::cout<<"test";
+            return answer;
+            //return Matrix();
         }
         else
         {
@@ -179,7 +181,7 @@ namespace algebra
         }
     }
 
-    Matrix Matrix::div(std::complex<double> number)
+    Matrix Matrix::Div(std::complex<double> number)
     {
         Matrix m2(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -192,26 +194,26 @@ namespace algebra
         return m2;
     }
 
-    std::string Matrix::print()
+    std::string Matrix::Print() const
     {
+        if(n_columns_==0 and n_rows_==0) return "[]";
         std::string matrix="[";
         for(int i=0; i<n_rows_; i++)
         {
             for(int j=0; j<n_columns_; j++)
             {
                 matrix+=algebra::doubleToString(matrix_[i][j].real());
-                if(matrix_[i][j].imag()!=0)
-                {
                     matrix+="i"+algebra::doubleToString(matrix_[i][j].imag());
-                }
-                matrix+=" ";
+                matrix+=", ";
             }
             matrix.pop_back();
-            matrix+=";\n ";
+            matrix.pop_back();
+            matrix+="; ";
         }
         matrix.pop_back();
         matrix.pop_back();
         matrix.pop_back();
+        matrix+=algebra::doubleToString(matrix_[n_rows_-1][n_columns_-1].imag());
         return matrix+"]";
     }
 
@@ -223,18 +225,18 @@ namespace algebra
         return str;
     }
 
-    Matrix Matrix::pow(int value)
+    Matrix Matrix::Pow(int value)
     {
         algebra::Matrix m=*this;
         for(int i=1; i<value; i++)
         {
-            m=m.mul(*this);
+            m=m.Mul(*this);
         }
         return m;
     }
 
-    std::pair<int, int> Matrix::Size() {
-        std::pair<int, int> size;
+    std::pair<long unsigned int, long unsigned int> Matrix::Size() {
+        std::pair<long unsigned int,long unsigned int> size;
         size = {n_rows_, n_columns_};
 
         return size;
@@ -243,6 +245,8 @@ namespace algebra
     Matrix::Matrix(const std::initializer_list<std::vector<std::complex<double>>> &elements)
     {
         std::vector<std::complex<double>> objects;
+        n_columns_=0;
+        n_rows_=0;
 
         int i=0;
         for(auto k: elements)
@@ -258,25 +262,33 @@ namespace algebra
 
         n_columns_ = n_columns_/n_rows_;
         //n_rows++;
-        n_columns_++;
+        //n_columns_++;
+
+        //std::cout<<n_columns_<<" "<<n_rows_<<std::endl;
 
         matrix_ = new std::complex<double> *[n_rows_];
 
         for (i = 0; i < n_rows_; i++) {
             matrix_[i] = new std::complex<double>[n_columns_];
         }
+
         int n=0;
         for (int i = 0; i < n_rows_; i++) {
             for (int j = 0; j < n_columns_; j++) {
                 matrix_[i][j] = objects[n];
                 //std::cout<<matrix_[i][j]<<std::endl;
                 n++;
-
             }
         }
 
     }
 
-
-
+    Matrix::~Matrix()
+    {
+        for(int i=0;i<n_rows_;i++)
+        {
+            delete [] matrix_[i];
+        }
+        delete [] matrix_;
+    }
 }
