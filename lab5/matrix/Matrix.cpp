@@ -240,9 +240,43 @@ namespace algebra
         return size;
     }
 
-    Matrix::Matrix(const std::initializer_list<std::vector<std::complex<double>>> &notation_list) : elements_{notation_list}
+    Matrix::Matrix(const std::initializer_list<std::vector<std::complex<double>>> &elements)
     {
+        std::vector<std::complex<double>> objects;
+
+        int i=0;
+        for(auto k: elements)
+        {
+            n_rows_++;
+            for(auto l: k)
+            {
+                n_columns_++;
+                objects.emplace_back(l);
+            }
+            i++;
+        }
+
+        n_columns_ = n_columns_/n_rows_;
+        //n_rows++;
+        n_columns_++;
+
+        matrix_ = new std::complex<double> *[n_rows_];
+
+        for (i = 0; i < n_rows_; i++) {
+            matrix_[i] = new std::complex<double>[n_columns_];
+        }
+        int n=0;
+        for (int i = 0; i < n_rows_; i++) {
+            for (int j = 0; j < n_columns_; j++) {
+                matrix_[i][j] = objects[n];
+                //std::cout<<matrix_[i][j]<<std::endl;
+                n++;
+
+            }
+        }
 
     }
+
+
 
 }

@@ -22,15 +22,15 @@ namespace pool
 
     public:
         TextPool();
-        TextPool(const TextPool &textpool) = delete;
+        TextPool(const TextPool &textpool)=delete;
         //2. konstruktor przenoszący
-        TextPool(TextPool &&textpool)=default;
+        TextPool(TextPool &&textpool);
         //3. operator przypisania kopiujący
-        TextPool &operator=(const TextPool &textpool) = delete;
+        TextPool &operator=(const TextPool &textpool)=delete;
         //4. operator przypisania przenoszący
-        TextPool &operator=(TextPool &&textpool) = default;
+        TextPool &operator=(TextPool &&textpool);
         //5. Destruktor
-        //~TextPool();
+        ~TextPool();
         std::experimental::string_view Intern(const std::string &str);
         size_t StoredStringCount() const;
         TextPool(const std::initializer_list<std::string> &elements) : pool_{elements} {
