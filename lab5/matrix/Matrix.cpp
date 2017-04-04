@@ -120,7 +120,7 @@ namespace algebra
         return m3;
     }
 
-    Matrix Matrix::Sub(Matrix m2)
+    Matrix Matrix::Sub(const Matrix &m2) const
     {
         Matrix m3(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -133,7 +133,7 @@ namespace algebra
         return m3;
     }
 
-    Matrix Matrix::Mul(std::complex<double> number)
+    Matrix Matrix::Mul(const std::complex<double> &number) const
     {
         Matrix m2(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -170,7 +170,7 @@ namespace algebra
         }
     }
 
-    Matrix Matrix::Div(std::complex<double> number)
+    Matrix Matrix::Div(const std::complex<double> &number) const
     {
         Matrix m2(n_rows_,n_columns_);
         for (int i = 0; i < n_rows_; i++)
@@ -214,7 +214,7 @@ namespace algebra
         return str;
     }
 
-    Matrix Matrix::Pow(int value) const
+    Matrix Matrix::Pow(const int &value) const
     {
         if(n_columns_!=n_rows_) return Matrix(0,0);
         if(value ==0)
@@ -339,7 +339,6 @@ namespace algebra
         for (int i = 0; i < n_rows_; i++) {
             for (int j = 0; j < n_columns_; j++) {
                 matrix_[i][j] = matrix.matrix_[i][j];
-                //std::cout<<matrix_[i][j]<<std::endl;
             }
         }
 

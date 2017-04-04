@@ -39,11 +39,11 @@ namespace algebra
         void SetElement(int n_rows, int n_columns, std::complex<double> element);
         std::string Print() const;
         Matrix Add(const Matrix &m2) const;
-        Matrix Sub(Matrix m2);
-        Matrix Mul(std::complex<double> number);
+        Matrix Sub(const Matrix &m2) const;
+        Matrix Mul(const std::complex<double> &number) const;
         Matrix Mul(const Matrix &m2) const;
-        Matrix Div(std::complex<double> number);
-        Matrix Pow(int value) const;
+        Matrix Div(const std::complex<double> &number) const;
+        Matrix Pow(const int &value) const;
         std::pair<long unsigned int, long unsigned int> Size() const;
     };
 
