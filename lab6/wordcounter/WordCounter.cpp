@@ -89,7 +89,8 @@ namespace datastructures {
     }
 
     bool Word::operator<(const Word &rhs) const {
-        return true;
+        if(GetWord()<rhs.GetWord()) return true;
+        else return false;
     }
 
     Counts &Counts::operator++(int) {
