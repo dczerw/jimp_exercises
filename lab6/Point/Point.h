@@ -1,15 +1,11 @@
 //
-// Created by dawid on 21.03.17.
+// Created by dawid on 04.04.17.
 //
 
 #ifndef JIMP_EXERCISES_POINT_H
 #define JIMP_EXERCISES_POINT_H
 
 #include <iostream>
-
-namespace geometry
-{
-
 
 class Point {
 public:
@@ -47,7 +43,5 @@ private:
 };
 
 
-    std::istream& operator>>(std::istream &is, Point& point);
-}
 
 #endif //JIMP_EXERCISES_POINT_H
