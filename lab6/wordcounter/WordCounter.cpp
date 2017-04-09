@@ -103,7 +103,7 @@ namespace datastructures {
         }
         return 0;
     }
-
+//masz tego komita
     bool Counts::operator<(const Counts &rhs) const {
         return number_ < rhs.number_;
     }
