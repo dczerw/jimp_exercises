@@ -79,12 +79,14 @@ namespace datastructures
 
         int DistinctWords();
         int TotalWords();
-        int Words();
+        std::list<Word> Words();
     };
 
     std::ostream &operator<<(std::ostream &output, WordCounter &counter);
 
     bool compare_nocase(std::pair<Word, Counts> one, std::pair<Word, Counts> two);
+
+    bool compare_alphabetically(std::pair<Word, Counts> one, std::pair<Word, Counts> two);
 
 }
 

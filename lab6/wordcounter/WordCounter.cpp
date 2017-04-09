@@ -183,8 +183,16 @@ namespace datastructures {
         }
     }
 
-    int WordCounter::Words() {
-        return 0;
+    std::list<Word> WordCounter::Words() {
+        std::list<Word> sorted;
+        for(auto n : counter_)
+        {
+            sorted.emplace_back(n.first);
+        }
+
+        //sorted.sort(compare_alphabetically);
+
+        return sorted;
     }
 
 }

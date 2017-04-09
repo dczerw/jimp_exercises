@@ -3,6 +3,7 @@
 //
 
 #include "WordCounter.h"
+#include <string>
 
 using namespace std;
 using ::datastructures::WordCounter;
