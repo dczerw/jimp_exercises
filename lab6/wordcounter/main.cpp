@@ -5,10 +5,14 @@
 #include "WordCounter.h"
 
 using namespace std;
+using ::datastructures::WordCounter;
+using ::datastructures::Counts;
+using ::datastructures::Word;
 
 int main()
 {
     WordCounter test("/home/dawid/Desktop/nowy.txt");
+    WordCounter test2{Word("raz"),Word("dwa"),Word("trzy"),Word("raz")};
     cout<<test;
 
     return 0;
