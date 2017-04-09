@@ -1,5 +1,5 @@
 //
-// Created by dawid on 04.04.17.
+// Created by dawid on 21.03.17.
 //
 
 #ifndef JIMP_EXERCISES_POINT_H
@@ -7,41 +7,45 @@
 
 #include <iostream>
 
-class Point {
-public:
-    //Konstruktor bezparametrowy
-    Point();
-
-    //Konstruktor parametrowy
-    Point(double x, double y);
-
-    //Destruktor wykonywany przed zwolnieniem pamięci
-    ~Point();
-
-    //Metody nie modyfikujące stanu obiektu (const na końcu metody)
-    //nie mogą zmodyfikować tego obiektu.
-    void ToString(std::ostream *out) const;
-
-    double Distance(const Point &other) const;
+namespace geometry
+{
 
 
-    //metody akcesorów są publiczne i tylko w przy ich pomocy
-    //można się dostać z zewnątrz do pól klasy
-    double GetX() const;
+    class Point {
+    public:
+        //Konstruktor bezparametrowy
+        Point();
 
-    double GetY() const;
+        //Konstruktor parametrowy
+        Point(double x, double y);
 
-    //metody seterów pozwalające zmienić stan obiektu
-    //po jego zainicjalizowaniu
-    void SetX(double x);
+        //Destruktor wykonywany przed zwolnieniem pamięci
+        ~Point();
 
-    void SetY(double y);
+        //Metody nie modyfikujące stanu obiektu (const na końcu metody)
+        //nie mogą zmodyfikować tego obiektu.
+        void ToString(std::ostream *out) const;
 
-private:
-    //w przeciwienstwie do pythona C++ wymaga jawnej deklaracji składowych pól klasy:
-    double x_, y_;
-};
+        double Distance(const Point &other) const;
 
 
+        //metody akcesorów są publiczne i tylko w przy ich pomocy
+        //można się dostać z zewnątrz do pól klasy
+        double GetX() const;
+
+        double GetY() const;
+
+        //metody seterów pozwalające zmienić stan obiektu
+        //po jego zainicjalizowaniu
+        void SetX(double x);
+
+        void SetY(double y);
+
+    private:
+        //w przeciwienstwie do pythona C++ wymaga jawnej deklaracji składowych pól klasy:
+        double x_, y_;
+    };
+    std::istream& operator>>(std::istream &is, Point& point);
+}
 
 #endif //JIMP_EXERCISES_POINT_H
