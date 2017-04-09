@@ -2,6 +2,7 @@
 // Created by dawid on 06.04.17.
 //
 
+#include <set>
 #include "WordCounter.h"
 
 namespace datastructures {
@@ -58,6 +59,7 @@ namespace datastructures {
                 is_found = false;
             }
         }
+        file.close();
     }
 
     WordCounter::~WordCounter() {
@@ -163,7 +165,6 @@ namespace datastructures {
 
     WordCounter::WordCounter(const std::initializer_list <const Word> &elements)
     {
-        //for(auto n : elements) AddWord(n);
         bool is_found=false;
         for(auto n : elements)
         {
@@ -183,16 +184,27 @@ namespace datastructures {
         }
     }
 
-    std::list<Word> WordCounter::Words() {
-        std::list<Word> sorted;
-        for(auto n : counter_)
+    std::set<Word> WordCounter::Words() {
+
+        std::set<Word> sorted;
+        for(auto n: counter_)
         {
-            sorted.emplace_back(n.first);
+            sorted.emplace(n.first);
         }
 
-        //sorted.sort(compare_alphabetically);
 
         return sorted;
     }
+
+    bool compare_alphabetically(Word one, Word two)
+    {
+        if(one.GetWord()<=two.GetWord()) return false;
+    }
+
+    bool Word::operator==(const Word &word) const {
+        if(GetWord()==word.GetWord()) return true;
+        else return false;
+    }
+
 
 }

@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <list>
+#include <set>
 
 namespace datastructures
 {
@@ -30,6 +31,8 @@ namespace datastructures
         void SetWord(std::string word);
 
         bool operator<(const Word &rhs) const;
+
+        bool operator==(const Word &word) const;
     };
 
     class Counts {
@@ -79,14 +82,14 @@ namespace datastructures
 
         int DistinctWords();
         int TotalWords();
-        std::list<Word> Words();
+        std::set<Word> Words();
     };
 
     std::ostream &operator<<(std::ostream &output, WordCounter &counter);
 
     bool compare_nocase(std::pair<Word, Counts> one, std::pair<Word, Counts> two);
 
-    bool compare_alphabetically(std::pair<Word, Counts> one, std::pair<Word, Counts> two);
+    bool compare_alphabetically(Word one, Word two);
 
 }
 
