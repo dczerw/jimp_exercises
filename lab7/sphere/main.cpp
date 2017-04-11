@@ -10,7 +10,6 @@ int main()
 {
     Kula k(0,0,0,10);
     Kolo l = k;
-    //static_cast<Kolo>(k);
     std::cout<<l.pole()<<std::endl;
 
     return 0;
