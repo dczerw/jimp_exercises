@@ -34,36 +34,47 @@ namespace datastructures {
     WordCounter::WordCounter() {
     }
 
-    WordCounter::WordCounter(std::string localization) {
+    WordCounter::WordCounter(const std::string &localization) {
         std::ifstream file;
         file.open(localization, std::ios::in);
         if (!file) {
             std::cout << "File doesnt exist" << std::endl;
         } else {
-            std::string word_str;
+            std::string word_in, word_noin; // word_in - with interpunction, word_noin - without interpunction characters
+            int i=0;
             Word word;
             bool is_found = false;
 
-            while (file >> word_str) {
+            while (file >> word_in) {
+                while(word_in[i]!='\0')
+                {
+                    if((word_in[i]>47 and word_in[i]<58) or (word_in[i]>64 and word_in[i]<91) or (word_in[i]>96 and word_in[i]<123)) word_noin+=word_in[i];
+                    i++;
+                }
+
+
                 for (auto &n : counter_) {
-                    if (n.first.GetWord() == word_str) {
+                    if (n.first.GetWord() == word_noin) {
                         n.second++;
                         is_found = true;
                     }
                 }
 
                 if (!is_found) {
-                    word.SetWord(word_str);
+                    word.SetWord(word_noin);
                     AddWord(word);
                 }
                 is_found = false;
+                word_in="";
+                word_noin="";
+                i=0;
             }
         }
         file.close();
     }
 
     WordCounter::~WordCounter() {
-
+    counter_.clear();
     }
 
     std::string Word::GetWord() const {
@@ -78,10 +89,6 @@ namespace datastructures {
         return number_;
     }
 
-    void Counts::SetCounts(int number) {
-        number_ = number;
-    }
-
 
     void WordCounter::AddWord(Word word) {
         Counts number(1);
@@ -89,21 +96,21 @@ namespace datastructures {
     }
 
     bool Word::operator<(const Word &rhs) const {
-        if(GetWord()<rhs.GetWord()) return true;
-        else return false;
+        return GetWord()<rhs.GetWord();
     }
 
     Counts &Counts::operator++(int) {
         number_ = number_ + 1;
+        return *this;
     }
 
-    int WordCounter::operator[](std::string word) {
+    int WordCounter::operator[](const std::string &word) {
         for (auto n : counter_) {
             if (n.first.GetWord() == word) return n.second.GetCounts();
         }
         return 0;
     }
-//masz tego komita
+
     bool Counts::operator<(const Counts &rhs) const {
         return number_ < rhs.number_;
     }
@@ -125,7 +132,7 @@ namespace datastructures {
         std::list<std::pair<Word, Counts>> tmp;
 
         for (auto n : wc.GetMap()) {
-            //std::cout<<n.first.GetWord()<<" "<<n.second.GetCounts()<<std::endl;
+
             tmp.emplace_back(n);
         }
         tmp.sort(compare_nocase);
@@ -197,15 +204,50 @@ namespace datastructures {
         return sorted;
     }
 
-    bool compare_alphabetically(Word one, Word two)
-    {
-        if(one.GetWord()<=two.GetWord()) return false;
-    }
-
     bool Word::operator==(const Word &word) const {
         if(GetWord()==word.GetWord()) return true;
         else return false;
     }
 
+
+    WordCounter WordCounter::FromInputStream(std::istream *input) {
+        WordCounter wc;
+        std::string word_in, word_noin; // word_in - with interpunction, word_noin - without interpunction characters
+        int i=0;
+        Word word;
+        bool is_found = false;
+
+        while (*input >> word_in) {
+            while(word_in[i]!='\0')
+            {
+                if((word_in[i]>47 and word_in[i]<58) or (word_in[i]>64 and word_in[i]<91) or (word_in[i]>96 and word_in[i]<123)) word_noin+=word_in[i];
+                i++;
+            }
+
+
+            for (auto &n : wc.GetMap()) {
+                if (n.first.GetWord() == word_noin) {
+                    wc.increment(n.first);
+                    is_found = true;
+                }
+            }
+
+            if (!is_found) {
+                word.SetWord(word_noin);
+                wc.AddWord(word);
+            }
+            is_found = false;
+            word_in="";
+            word_noin="";
+            i=0;
+        }
+
+        return wc;
+    }
+
+    void WordCounter::increment(const Word &word)
+    {
+        counter_[word]++;
+    }
 
 }

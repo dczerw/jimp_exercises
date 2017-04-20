@@ -21,17 +21,11 @@ namespace datastructures
 
     public:
         Word();
-
         Word(std::string word);
-
         ~Word();
-
         std::string GetWord() const;
-
         void SetWord(std::string word);
-
         bool operator<(const Word &rhs) const;
-
         bool operator==(const Word &word) const;
     };
 
@@ -41,21 +35,14 @@ namespace datastructures
 
     public:
         Counts();
-
         Counts(int number);
-
         ~Counts();
 
         int GetCounts();
 
-        void SetCounts(int number);
-
         Counts &operator++(int);
-
         bool operator<(const Counts &rhs) const;
-
         bool operator>(const Counts &rhs) const;
-
         bool operator==(const Counts &rhs) const;
 
     };
@@ -66,30 +53,23 @@ namespace datastructures
 
     public:
         WordCounter();
-
-        WordCounter(std::string localization);
-
+        WordCounter(const std::string &localization);
         WordCounter(const std::initializer_list<const Word> &elements);
-        //: counter_{elements}
-
         ~WordCounter();
 
         void AddWord(Word word);
-
         std::map<Word, Counts> GetMap();
-
-        int operator[](std::string word);
-
+        int operator[](const std::string &word);
+        void increment(const Word &word);
         int DistinctWords();
         int TotalWords();
         std::set<Word> Words();
+        static WordCounter FromInputStream(std::istream *input);
+
     };
 
     std::ostream &operator<<(std::ostream &output, WordCounter &counter);
-
     bool compare_nocase(std::pair<Word, Counts> one, std::pair<Word, Counts> two);
-
-    bool compare_alphabetically(Word one, Word two);
 
 }
 
