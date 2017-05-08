@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <stdexcept>
 
 namespace moviesubs
 {
@@ -21,6 +22,7 @@ namespace moviesubs
     {
     public:
         virtual void ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out) override;
+        bool isNegativeFrameAfterShift(int start_frame_shift, int end_frame_shift);
     };
 
     class SubRipSubtitles : public MovieSubtitles
@@ -29,6 +31,27 @@ namespace moviesubs
         virtual void ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out) override;
     };
 
+    class NegativeFrameAfterShift : public std::runtime_error
+    {
+    public:
+        NegativeFrameAfterShift(std::string msg) : std::runtime_error(msg){};
+        virtual ~NegativeFrameAfterShift(){};
+    };
+
+    class SubtitleEndBeforeStart : public std::runtime_error
+    {
+    public:
+        SubtitleEndBeforeStart(std::string msg) : std::runtime_error(msg){};
+        virtual ~SubtitleEndBeforeStart(){};
+        int  LineAt() const;
+    };
+
+    class InvalidSubtitleLineFormat : public std::runtime_error
+    {
+    public:
+        InvalidSubtitleLineFormat(std::string msg) : std::runtime_error(msg){};
+        virtual ~InvalidSubtitleLineFormat(){};
+    };
 
 }
 

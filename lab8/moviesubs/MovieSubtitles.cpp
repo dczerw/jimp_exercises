@@ -31,6 +31,9 @@ namespace moviesubs
             }
             i++;
 
+            if(isNegativeFrameAfterShift(atoi(start_frame.c_str())+shift, atoi(start_frame.c_str())+shift)) throw
+                        NegativeFrameAfterShift("Negative frame after shift.");
+
             start_frame_shift=std::to_string(atoi(start_frame.c_str())+shift);
             end_frame_shift=std::to_string(atoi(end_frame.c_str())+shift);
             *out << "{"+start_frame_shift+"}{"+end_frame_shift+"}";
@@ -145,82 +148,16 @@ namespace moviesubs
             }
 
         }
-        /*while(getline(*in, line))
-        {
-            switch(line_nr)
-            {
-                case 1:
-                    *out<<line<<std::endl;
-                    line_nr++;
-                    break;
-                case 2:
-                    start_hours=line[0]+line[1];
-                    start_minutes=line[3]+line[4];
-                    start_seconds=line[6]+line[7];
-                    start_miliseconds=line[9]+line[10]+line[11];
-                    end_hours=line[17]+line[18];
-                    end_minutes=line[20]+line[21];
-                    end_seconds=line[23]+line[24];
-                    end_miliseconds=line[26]+line[27]+line[28];
 
-                    if(atoi(start_miliseconds.c_str())+shift>999)
-                    {
-                        start_miliseconds=std::to_string(atoi(start_miliseconds.c_str())+shift-1000);
-                        start_seconds=std::to_string(atoi(start_seconds.c_str())+1);
-                        if(atoi(start_seconds.c_str())>59)
-                        {
-                            start_seconds[0]=0;
-                            start_seconds[1]=0;
-                            start_minutes=std::to_string(atoi(start_minutes.c_str())+1);
-                            if(atoi(start_minutes.c_str())>59)
-                            {
-                                start_minutes[0]=0;
-                                start_minutes[0]=0;
-                                start_minutes=std::to_string(atoi(start_minutes.c_str())+1);
-                            }
-                        }
-                    }
+    }
 
-                    if(atoi(end_miliseconds.c_str())+shift>999)
-                    {
-                        end_miliseconds=std::to_string(atoi(end_miliseconds.c_str())+shift-1000);
-                        end_seconds=std::to_string(atoi(end_seconds.c_str())+1);
-                        if(atoi(end_seconds.c_str())>59)
-                        {
-                            end_seconds[0]=0;
-                            end_seconds[1]=0;
-                            end_minutes=std::to_string(atoi(start_minutes.c_str())+1);
-                            if(atoi(end_minutes.c_str())>59)
-                            {
-                                end_minutes[0]=0;
-                                end_minutes[0]=0;
-                                end_minutes=std::to_string(atoi(start_minutes.c_str())+1);
-                            }
-                        }
-                    }
+    bool MicroDvdSubtitles::isNegativeFrameAfterShift(int start_frame_shift, int end_frame_shift) {
+        if(start_frame_shift<0 or end_frame_shift<0) return true;
+        else return false;
+    }
 
-                    *out<<start_hours<<"."<<start_minutes<<"."<<start_seconds<<","<<start_miliseconds<<" --> "<<
-                        end_hours<<"."<<end_minutes<<"."<<end_seconds<<","<<end_miliseconds<<std::endl;
-
-                    line_nr++;
-                    break;
-                case 3:
-                    *out<<line<<std::endl;
-                    line_nr++;
-                    break;
-                case 4:
-                    *out<<line<<std::endl;
-                    line_nr++;
-                    break;
-                case 5:
-                    *out<<std::endl;
-                    line_nr=0;
-                    break;
-            }
-
-
-        }
-         */
+    int SubtitleEndBeforeStart::LineAt() const {
+        return 0;
     }
 
 }
