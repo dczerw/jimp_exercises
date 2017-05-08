@@ -23,6 +23,7 @@ namespace moviesubs
     public:
         virtual void ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out) override;
         bool isNegativeFrameAfterShift(int start_frame_shift, int end_frame_shift);
+        bool isSubtitleEndBeforeStart(int start_frame_shift, int end_frame_shift);
     };
 
     class SubRipSubtitles : public MovieSubtitles
@@ -40,8 +41,10 @@ namespace moviesubs
 
     class SubtitleEndBeforeStart : public std::runtime_error
     {
+    private:
+        int line_;
     public:
-        SubtitleEndBeforeStart(std::string msg) : std::runtime_error(msg){};
+        SubtitleEndBeforeStart(std::string msg, int line);
         virtual ~SubtitleEndBeforeStart(){};
         int  LineAt() const;
     };

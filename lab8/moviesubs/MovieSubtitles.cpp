@@ -13,6 +13,7 @@ namespace moviesubs
         std::string start_frame_shift, end_frame_shift;
         int shift=int((double(miliseconds)/1000)*fps);
         int i=1;
+        int line_nr=1;
 
         while(getline(*in,line))
         {
@@ -33,6 +34,8 @@ namespace moviesubs
 
             if(isNegativeFrameAfterShift(atoi(start_frame.c_str())+shift, atoi(start_frame.c_str())+shift)) throw
                         NegativeFrameAfterShift("Negative frame after shift.");
+            else if(isSubtitleEndBeforeStart(atoi(start_frame.c_str())+shift, atoi(start_frame.c_str())+shift)) throw
+                        SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
 
             start_frame_shift=std::to_string(atoi(start_frame.c_str())+shift);
             end_frame_shift=std::to_string(atoi(end_frame.c_str())+shift);
@@ -49,6 +52,7 @@ namespace moviesubs
             start_frame_shift="";
             end_frame="";
             end_frame_shift="";
+            line_nr++;
         }
     }
 
@@ -160,4 +164,13 @@ namespace moviesubs
         return 0;
     }
 
+    SubtitleEndBeforeStart::SubtitleEndBeforeStart(std::string msg, int line) : std::runtime_error(msg)
+    {
+        line_ = line;
+    }
+
+    bool MicroDvdSubtitles::isSubtitleEndBeforeStart(int start_frame_shift, int end_frame_shift) {
+        if(end_frame_shift<start_frame_shift) return true;
+        else return false;
+    }
 }
