@@ -179,6 +179,7 @@ namespace moviesubs
     bool MicroDvdSubtitles::isInvalidSubtitleLineFormat(std::string line) {
         int l_brackets=0;
         int r_brackets=0;
+        std::string start_frame, end_frame;
         int i=0;
 
         while(line[i]!='\0')
@@ -188,6 +189,31 @@ namespace moviesubs
             i++;
         }
         if(l_brackets!=2 or r_brackets!=2) return true;
-        return false;
+
+        i=0;
+
+        while(line[i]!='}')
+        {
+            start_frame+=line[i];
+            i++;
+        }
+
+        i+=2;
+        while(line[i]!='}')
+        {
+            end_frame+=line[i];
+            i++;
+        }
+
+        i=0;
+        while(start_frame[i]!='\0')
+        {
+            if(start_frame[i]<48 or start_frame[i]>57) return true;
+        }
+
+        while(end_frame[i]!='\0')
+        {
+            if(end_frame[i]<48 or end_frame[i]>57) return true;
+        }
     }
 }
