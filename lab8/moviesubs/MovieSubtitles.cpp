@@ -15,6 +15,8 @@ namespace moviesubs
         int i=1;
         int line_nr=1;
 
+        if(isNegativeFrameRate(fps)) throw std::invalid_argument("Invalid argument");
+
         while(getline(*in,line))
         {
 
@@ -190,7 +192,7 @@ namespace moviesubs
         }
         if(l_brackets!=2 or r_brackets!=2) return true;
 
-        i=0;
+        i=1;
 
         while(line[i]!='}')
         {
@@ -205,15 +207,24 @@ namespace moviesubs
             i++;
         }
 
-        i=0;
+        /*
         while(start_frame[i]!='\0')
         {
             if(start_frame[i]<48 or start_frame[i]>57) return true;
+            i++;
         }
 
         while(end_frame[i]!='\0')
         {
             if(end_frame[i]<48 or end_frame[i]>57) return true;
+            i++;
         }
+         */
+        return false;
+    }
+
+    bool MicroDvdSubtitles::isNegativeFrameRate(int fps) {
+        if (fps<0) return true;
+        else return false;
     }
 }
