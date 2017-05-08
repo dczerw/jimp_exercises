@@ -190,10 +190,14 @@ namespace moviesubs
             if(line[i]=='}') r_brackets++;
             i++;
         }
-        if(l_brackets!=2 or r_brackets!=2) return true;
+        if(l_brackets!=r_brackets) return true;
+        else
+        {
+            if(l_brackets!=2 and l_brackets!=3) return true;
+            if(r_brackets!=2 and r_brackets!=3) return true;
+        }
 
         i=1;
-
         while(line[i]!='}')
         {
             start_frame+=line[i];
@@ -206,25 +210,19 @@ namespace moviesubs
             end_frame+=line[i];
             i++;
         }
+        if(isNumeric(start_frame)==false or isNumeric(end_frame)==false) return true;
 
-        /*
-        while(start_frame[i]!='\0')
-        {
-            if(start_frame[i]<48 or start_frame[i]>57) return true;
-            i++;
-        }
-
-        while(end_frame[i]!='\0')
-        {
-            if(end_frame[i]<48 or end_frame[i]>57) return true;
-            i++;
-        }
-         */
         return false;
     }
 
     bool MicroDvdSubtitles::isNegativeFrameRate(int fps) {
         if (fps<0) return true;
         else return false;
+    }
+
+    bool MicroDvdSubtitles::isNumeric(const std::string &s) {
+        std::string::const_iterator it = s.begin();
+        while (it != s.end() && std::isdigit(*it)) ++it;
+        return !s.empty() && it == s.end();
     }
 }

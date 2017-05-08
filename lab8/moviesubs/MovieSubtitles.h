@@ -26,7 +26,7 @@ namespace moviesubs
         bool isSubtitleEndBeforeStart(int start_frame, int end_frame);
         bool isInvalidSubtitleLineFormat(std::string line);
         bool isNegativeFrameRate(int fps);
-        bool isNumber
+        bool isNumeric(const std::string& s);
     };
 
     class SubRipSubtitles : public MovieSubtitles
