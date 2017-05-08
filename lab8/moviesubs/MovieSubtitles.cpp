@@ -18,6 +18,8 @@ namespace moviesubs
         while(getline(*in,line))
         {
 
+            if(isInvalidSubtitleLineFormat(line)) throw InvalidSubtitleLineFormat("Invalid subtitle line format");
+
             while(line[i]!='}')
             {
                 start_frame+=line[i];
@@ -34,7 +36,7 @@ namespace moviesubs
 
             if(isNegativeFrameAfterShift(atoi(start_frame.c_str())+shift, atoi(start_frame.c_str())+shift)) throw
                         NegativeFrameAfterShift("Negative frame after shift.");
-            else if(isSubtitleEndBeforeStart(atoi(start_frame.c_str())+shift, atoi(start_frame.c_str())+shift)) throw
+            else if(isSubtitleEndBeforeStart(atoi(start_frame.c_str()),atoi(end_frame.c_str()))) throw
                         SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
 
             start_frame_shift=std::to_string(atoi(start_frame.c_str())+shift);
@@ -161,7 +163,7 @@ namespace moviesubs
     }
 
     int SubtitleEndBeforeStart::LineAt() const {
-        return 0;
+        return line_;
     }
 
     SubtitleEndBeforeStart::SubtitleEndBeforeStart(std::string msg, int line) : std::runtime_error(msg)
@@ -169,9 +171,23 @@ namespace moviesubs
         line_ = line;
     }
 
-    bool MicroDvdSubtitles::isSubtitleEndBeforeStart(int start_frame_shift, int end_frame_shift) {
-        //if(end_frame_shift<start_frame_shift) return true;
-        //else return false;
-        return true;
+    bool MicroDvdSubtitles::isSubtitleEndBeforeStart(int start_frame, int end_frame) {
+        if(end_frame<start_frame) return true;
+        else return false;
+    }
+
+    bool MicroDvdSubtitles::isInvalidSubtitleLineFormat(std::string line) {
+        int l_brackets=0;
+        int r_brackets=0;
+        int i=0;
+
+        while(line[i]!='\0')
+        {
+            if(line[i]=='{') l_brackets++;
+            if(line[i]=='}') r_brackets++;
+            i++;
+        }
+        if(l_brackets!=2 or r_brackets!=2) return true;
+        return false;
     }
 }
