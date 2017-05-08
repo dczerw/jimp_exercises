@@ -170,7 +170,8 @@ namespace moviesubs
     }
 
     bool MicroDvdSubtitles::isSubtitleEndBeforeStart(int start_frame_shift, int end_frame_shift) {
-        if(end_frame_shift<start_frame_shift) return true;
-        else return false;
+        //if(end_frame_shift<start_frame_shift) return true;
+        //else return false;
+        return true;
     }
 }
