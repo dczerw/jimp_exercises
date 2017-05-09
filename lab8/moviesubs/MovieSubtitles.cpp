@@ -62,21 +62,30 @@ namespace moviesubs
 
     void SubRipSubtitles::ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out)
     {
+        std::regex goodsubs("\\d\\d:\\d\\d:\\d\\d,\\d\\d\\d --> \\d\\d:\\d\\d:\\d\\d,\\d\\d\\d");
+        if(fps<0) throw std::invalid_argument(" bad fps");
         std::string line;
         std::string start_hours,start_minutes,start_seconds,start_miliseconds;
         std::string end_hours,end_minutes,end_seconds,end_miliseconds;
         int line_nr=1;
+        std::smatch result;
+        int frames=1; // liczba klatek
         while(getline(*in, line))
         {
             if(line_nr==1)
             {
                 *out<<line<<std::endl;
+                if(atoi(line.c_str())!=frames) throw OutOfOrderFrames("out of order");
+                frames++;
                 line_nr++;
                 continue;
             }
             if(line_nr==2)
             {
-
+                if(not std::regex_search(line,result,goodsubs)) {
+                    std::cout<<result[0];
+                    throw InvalidSubtitleLineFormat("Cos poszlo zle.");
+                }
                 start_hours="";
                 start_minutes="";
                 start_seconds="";
@@ -139,7 +148,11 @@ namespace moviesubs
                     end_miliseconds=std::to_string(atoi(end_miliseconds.c_str())+miliseconds);
                     if(end_miliseconds.size()<3) end_miliseconds="0"+end_miliseconds;
                 }
-
+                if(atoi(start_hours.c_str())>atoi(end_hours.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
+                else if(atoi(start_minutes.c_str())>atoi(end_minutes.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
+                else if(atoi(start_seconds.c_str())>atoi(end_seconds.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
+                else if(atoi(start_miliseconds.c_str())>atoi(end_miliseconds.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
+                
 
 
                 *out<<start_hours<<":"<<start_minutes<<":"<<start_seconds<<","<<start_miliseconds<<" --> "<<

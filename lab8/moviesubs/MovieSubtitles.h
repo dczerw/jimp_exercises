@@ -9,6 +9,8 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+#include <regex>
+
 
 namespace moviesubs
 {
@@ -58,7 +60,25 @@ namespace moviesubs
         InvalidSubtitleLineFormat(std::string msg) : std::runtime_error(msg){};
         virtual ~InvalidSubtitleLineFormat(){};
     };
+    class MissingTimeSpecification : public std::runtime_error
+    {
+    public:
+        MissingTimeSpecification(std::string msg) : std::runtime_error(msg){};
+        virtual ~MissingTimeSpecification(){};
+    };
+    class OutOfOrderFrames : public std::runtime_error
+    {
+    public:
+        OutOfOrderFrames(std::string msg) : std::runtime_error(msg){};
+        virtual ~OutOfOrderFrames(){};
+    };
 
+    class NegativeFrameRateThrowsIlegalArgument : public std::runtime_error
+    {
+    public:
+        NegativeFrameRateThrowsIlegalArgument(std::string msg) : std::runtime_error(msg){};
+        virtual ~NegativeFrameRateThrowsIlegalArgument(){};
+    };
 }
 
 #endif //JIMP_EXERCISES_MOVIESUBTITLES_H
