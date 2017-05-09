@@ -9,8 +9,7 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
-#include <regex>
-
+#include <vector>
 
 namespace moviesubs
 {
@@ -35,6 +34,9 @@ namespace moviesubs
     {
     public:
         virtual void ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out) override;
+        bool isOutOfOrder(std::vector<int> order);
+        bool isInvalidSubtitleLineFormat(std::string line);
+        int subRipToMiliseconds(std::string hours, std::string minutes, std::string seconds, std::string miliseconds);
     };
 
     class NegativeFrameAfterShift : public std::runtime_error
@@ -60,19 +62,20 @@ namespace moviesubs
         InvalidSubtitleLineFormat(std::string msg) : std::runtime_error(msg){};
         virtual ~InvalidSubtitleLineFormat(){};
     };
+
     class MissingTimeSpecification : public std::runtime_error
     {
     public:
         MissingTimeSpecification(std::string msg) : std::runtime_error(msg){};
         virtual ~MissingTimeSpecification(){};
     };
+
     class OutOfOrderFrames : public std::runtime_error
     {
     public:
         OutOfOrderFrames(std::string msg) : std::runtime_error(msg){};
         virtual ~OutOfOrderFrames(){};
     };
-
 
 }
 

@@ -15,7 +15,7 @@ namespace moviesubs
         int i=1;
         int line_nr=1;
 
-        if(isNegativeFrameRate(fps)) throw std::invalid_argument("Invalid argument");
+        if(isNegativeFrameRate(fps)) throw std::invalid_argument("Negative framerate");
 
         while(getline(*in,line))
         {
@@ -25,7 +25,7 @@ namespace moviesubs
             while(line[i]!='}')
             {
                 start_frame+=line[i];
-                        i++;
+                i++;
             }
 
             i+=2;
@@ -59,33 +59,32 @@ namespace moviesubs
             line_nr++;
         }
     }
-    int frame_start=0;
+
     void SubRipSubtitles::ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out)
     {
-        std::regex goodsubs("\\d\\d:\\d\\d:\\d\\d,\\d\\d\\d --> \\d\\d:\\d\\d:\\d\\d,\\d\\d\\d");
-        if(fps<0) throw std::invalid_argument(" bad fps");
         std::string line;
         std::string start_hours,start_minutes,start_seconds,start_miliseconds;
         std::string end_hours,end_minutes,end_seconds,end_miliseconds;
+        std::vector<int> order;
         int line_nr=1;
-        std::smatch result;
-        int frames=1; // liczba klatek
+
+        if(fps<0) throw std::invalid_argument("Negative framerate");
+
         while(getline(*in, line))
         {
             if(line_nr==1)
             {
                 *out<<line<<std::endl;
-                if(atoi(line.c_str())!=frames) throw OutOfOrderFrames("out of order");
-                frames++;
                 line_nr++;
+                order.emplace_back(atoi(line.c_str()));
+                if(isOutOfOrder(order)) throw OutOfOrderFrames("Frames out of order");
                 continue;
             }
             if(line_nr==2)
             {
-                if(not std::regex_search(line,result,goodsubs)) {
-                    std::cout<<result[0];
-                    throw InvalidSubtitleLineFormat("Cos poszlo zle.");
-                }
+
+                if(isInvalidSubtitleLineFormat(line)) throw InvalidSubtitleLineFormat("Invalid Subtitle Line Format");
+
                 start_hours="";
                 start_minutes="";
                 start_seconds="";
@@ -103,8 +102,14 @@ namespace moviesubs
                 end_minutes+=line[20]; end_minutes+=line[21];
                 end_seconds+=line[23]; end_seconds+=line[24];
                 end_miliseconds+=line[26]; end_miliseconds+=line[27]; end_miliseconds+=line[28];
-                frame_start=atoi(start_hours.c_str())*3600000+atoi(start_minutes.c_str())*60000+atoi(start_seconds.c_str())*1000;
-                if(frame_start+miliseconds<0) throw NegativeFrameAfterShift("NegativeFrameAfterShift");
+
+                if(subRipToMiliseconds(end_hours,end_minutes,end_seconds,end_miliseconds)-
+                   subRipToMiliseconds(start_hours,start_minutes,start_seconds,start_miliseconds)<0)
+                    throw SubtitleEndBeforeStart("At line "+std::to_string(order.size())+": "+
+                                                 start_hours+":"+start_minutes+":"+start_seconds+","+start_miliseconds+" --> "+
+                                                 end_hours+":"+end_minutes+":"
+                                                 +end_seconds+","+end_miliseconds,order.size());
+
                 if(atoi(start_miliseconds.c_str())+miliseconds>999)
                 {
                     start_miliseconds=std::to_string(atoi(start_miliseconds.c_str())+miliseconds-1000);
@@ -149,12 +154,10 @@ namespace moviesubs
                     end_miliseconds=std::to_string(atoi(end_miliseconds.c_str())+miliseconds);
                     if(end_miliseconds.size()<3) end_miliseconds="0"+end_miliseconds;
                 }
-                if(atoi(start_hours.c_str())>atoi(end_hours.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
-                else if(atoi(start_minutes.c_str())>atoi(end_minutes.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
-                else if(atoi(start_seconds.c_str())>atoi(end_seconds.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
-                else if(atoi(start_miliseconds.c_str())>atoi(end_miliseconds.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
 
-
+                if(subRipToMiliseconds(start_hours,start_minutes,start_seconds,start_miliseconds)<0 or
+                   subRipToMiliseconds(end_hours,end_minutes,end_seconds,end_miliseconds)<0)
+                    throw NegativeFrameAfterShift("Negative frame after shift.");
 
                 *out<<start_hours<<":"<<start_minutes<<":"<<start_seconds<<","<<start_miliseconds<<" --> "<<
                     end_hours<<":"<<end_minutes<<":"<<end_seconds<<","<<end_miliseconds<<std::endl;
@@ -168,8 +171,8 @@ namespace moviesubs
                 else line_nr++;
                 continue;
             }
-
         }
+
 
     }
 
@@ -238,5 +241,42 @@ namespace moviesubs
         std::string::const_iterator it = s.begin();
         while (it != s.end() && std::isdigit(*it)) ++it;
         return !s.empty() && it == s.end();
+    }
+
+    int SubRipSubtitles::subRipToMiliseconds(std::string hours, std::string minutes, std::string seconds,
+                                             std::string miliseconds) {
+        int sum;
+        int hours_digit=atoi(hours.c_str());
+        int minutes_digit=atoi(minutes.c_str());
+        int seconds_digit=atoi(seconds.c_str());
+        int miliseconds_digit=atoi(miliseconds.c_str());
+
+        sum=miliseconds_digit+seconds_digit*1000+minutes_digit*1000*60+hours_digit*1000*1000*60;
+        return sum;
+
+    }
+
+    bool SubRipSubtitles::isOutOfOrder(std::vector<int> order)
+    {
+        for(int i=0;i<order.size()-1;i++)
+        {
+            if(order[i+1]-order[i]!=1) return true;
+        }
+        return false;
+    }
+
+    bool SubRipSubtitles::isInvalidSubtitleLineFormat(std::string line) {
+        int i=0;
+        int colons=0;
+        int comas=0;
+        while(line[i]!='\0')
+        {
+            if(line[i]==':') colons++;
+            if(line[i]==',') comas++;
+            i++;
+        }
+        if(colons!=4 or comas!=2) return true;
+        if(line[8]!=',' or line[25]!=',') return true;
+        return false;
     }
 }
