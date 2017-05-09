@@ -34,7 +34,7 @@ namespace academia
     class Serializable
     {
     public:
-        virtual void Serialize(Serializer *serializer);
+        virtual void Serialize(Serializer *serializer)=0;
     };
 
     class Room : public Serializable
@@ -46,11 +46,18 @@ namespace academia
         };
         Room(int id, std::string name, Type type);
         virtual void Serialize(Serializer *serializer) override;
+        std::string EnumToString(Type type);
 
     private:
         int id_;
         std::string name_;
         Type type_;
+
+    };
+
+    class Building : public Room
+    {
+    public:
 
     };
 }
