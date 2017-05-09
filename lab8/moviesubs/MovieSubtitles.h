@@ -73,12 +73,7 @@ namespace moviesubs
         virtual ~OutOfOrderFrames(){};
     };
 
-    class NegativeFrameRateThrowsIlegalArgument : public std::runtime_error
-    {
-    public:
-        NegativeFrameRateThrowsIlegalArgument(std::string msg) : std::runtime_error(msg){};
-        virtual ~NegativeFrameRateThrowsIlegalArgument(){};
-    };
+
 }
 
 #endif //JIMP_EXERCISES_MOVIESUBTITLES_H

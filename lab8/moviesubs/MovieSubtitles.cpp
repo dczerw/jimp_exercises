@@ -59,7 +59,7 @@ namespace moviesubs
             line_nr++;
         }
     }
-
+    int frame_start=0;
     void SubRipSubtitles::ShiftAllSubtitlesBy(int miliseconds, int fps, std::istream *in, std::ostream *out)
     {
         std::regex goodsubs("\\d\\d:\\d\\d:\\d\\d,\\d\\d\\d --> \\d\\d:\\d\\d:\\d\\d,\\d\\d\\d");
@@ -103,7 +103,8 @@ namespace moviesubs
                 end_minutes+=line[20]; end_minutes+=line[21];
                 end_seconds+=line[23]; end_seconds+=line[24];
                 end_miliseconds+=line[26]; end_miliseconds+=line[27]; end_miliseconds+=line[28];
-
+                frame_start=atoi(start_hours.c_str())*3600000+atoi(start_minutes.c_str())*60000+atoi(start_seconds.c_str())*1000;
+                if(frame_start+miliseconds<0) throw NegativeFrameAfterShift("NegativeFrameAfterShift");
                 if(atoi(start_miliseconds.c_str())+miliseconds>999)
                 {
                     start_miliseconds=std::to_string(atoi(start_miliseconds.c_str())+miliseconds-1000);
@@ -152,7 +153,7 @@ namespace moviesubs
                 else if(atoi(start_minutes.c_str())>atoi(end_minutes.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
                 else if(atoi(start_seconds.c_str())>atoi(end_seconds.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
                 else if(atoi(start_miliseconds.c_str())>atoi(end_miliseconds.c_str())) throw SubtitleEndBeforeStart("At line "+std::to_string(line_nr)+": "+line,line_nr);
-                
+
 
 
                 *out<<start_hours<<":"<<start_minutes<<":"<<start_seconds<<","<<start_miliseconds<<" --> "<<
