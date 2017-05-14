@@ -31,8 +31,10 @@ namespace academia
 
     void Room::Serialize(Serializer *serializer) const {
         serializer->Header("room");
+        is_end=false;
         serializer->IntegerField("id",id_);
         serializer->StringField("name",name_);
+        is_end=true;
         serializer->StringField("type",EnumToString(type_));
         serializer->Footer("room");
     }
@@ -84,7 +86,9 @@ namespace academia
     void Building::Serialize(Serializer *serializer) const {
         serializer->Header("building");
         serializer->IntegerField("id",id_);
+        is_end=false;
         serializer->StringField("name",name_);
+        is_end=false;
         std::vector<std::reference_wrapper<const Serializable>> tmp;
         for(const auto &n : rooms_)
         {
@@ -92,6 +96,49 @@ namespace academia
         }
         serializer->ArrayField("rooms",tmp);
         serializer->Footer("building");
+    }
+
+    void JsonSerializer::IntegerField(const std::string &field_name, int value) {
+        *out_<<"\""<<field_name<<"\": "<<value<<", ";
+    }
+
+    void JsonSerializer::DoubleField(const std::string &field_name, double value) {
+        *out_<<"\""<<field_name<<"\": "<<value<<", ";
+    }
+
+    void JsonSerializer::StringField(const std::string &field_name, const std::string &value) {
+        *out_<<"\""<<field_name<<"\": \""<<value<<"\"";
+        if(!is_end) *out_<<", ";
+    }
+
+    void JsonSerializer::BooleanField(const std::string &field_name, bool value) {
+        *out_<<"\""<<field_name<<"\": \""<<value<<"\"";
+        if(!is_end) *out_<<", ";
+    }
+
+    void JsonSerializer::SerializableField(const std::string &field_name, const academia::Serializable &value) {
+        Serializer::SerializableField(field_name, value);
+    }
+
+    void JsonSerializer::ArrayField(const std::string &field_name,
+                                    const std::vector<std::reference_wrapper<const academia::Serializable>> &value) {
+        *out_<<"\""<<field_name<<"\": [";
+        int i=1;
+        for(const Serializable &c : value)
+        {
+            c.Serialize(this);
+            if(i<value.size()) *out_<<", ";
+            i++;
+        }
+        *out_<<"]";
+    }
+
+    void JsonSerializer::Header(const std::string &object_name) {
+        *out_<<"{";
+    }
+
+    void JsonSerializer::Footer(const std::string &object_name) {
+        *out_<<"}";
     }
 
 }
