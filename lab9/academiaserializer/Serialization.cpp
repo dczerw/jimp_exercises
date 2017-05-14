@@ -17,7 +17,7 @@ namespace academia
 
     }
 
-    std::string Room::EnumToString(Room::Type type) {
+    std::string Room::EnumToString(Room::Type type) const {
         switch(type)
         {
             case CLASSROOM:
@@ -29,7 +29,7 @@ namespace academia
         }
     }
 
-    void Room::Serialize(Serializer *serializer) {
+    void Room::Serialize(Serializer *serializer) const {
         serializer->Header("room");
         serializer->IntegerField("id",id_);
         serializer->StringField("name",name_);
@@ -59,11 +59,12 @@ namespace academia
 
     void XmlSerializer::ArrayField(const std::string &field_name,
                                    const std::vector<std::reference_wrapper<const academia::Serializable>> &value) {
-        *out_<<"<"<<field_name;
-        //for(const Serializable &c : value)
-        //{
-        //    c.Serialize(this);
-        //}
+        *out_<<"<"<<field_name<<">";
+        for(const Serializable &c : value)
+        {
+           c.Serialize(this);
+        }
+        *out_<<"<\\"<<field_name<<">";
     }
 
     void XmlSerializer::Header(const std::string &object_name) {
@@ -80,10 +81,16 @@ namespace academia
         rooms_=rooms;
     }
 
-    void Building::Serialize(Serializer *serializer) {
+    void Building::Serialize(Serializer *serializer) const {
         serializer->Header("building");
         serializer->IntegerField("id",id_);
         serializer->StringField("name",name_);
+        std::vector<std::reference_wrapper<const Serializable>> tmp;
+        for(const auto &n : rooms_)
+        {
+            tmp.emplace_back(std::cref(n));
+        }
+        serializer->ArrayField("rooms",tmp);
         serializer->Footer("building");
     }
 
