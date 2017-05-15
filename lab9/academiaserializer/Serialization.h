@@ -16,7 +16,7 @@ namespace academia
 
     static bool is_end=false;
 
-   class Serializable;
+    class Serializable;
 
     class Serializer
     {
@@ -29,7 +29,7 @@ namespace academia
         virtual void BooleanField(const std::string &field_name, bool value){};
         virtual void SerializableField(const std::string &field_name, const academia::Serializable &value){}
         virtual void ArrayField(const std::string &field_name,
-                        const std::vector<std::reference_wrapper<const academia::Serializable>> &value){};
+                                const std::vector<std::reference_wrapper<const academia::Serializable>> &value){};
         virtual void Header(const std::string &object_name){};
         virtual void Footer(const std::string &object_name){};
     };
@@ -104,13 +104,13 @@ namespace academia
     class BuildingRepository
     {
     public:
-        void StoreAll(Serializer *serializer) const{}
-        void Add(Serializable){}
+        BuildingRepository();
         BuildingRepository(const std::initializer_list<Building> &building);
+        void StoreAll(Serializer *serializer) const;
+        void Add(const Building &building);
         std::experimental::optional<Building> operator[](int index) const;
     private:
         std::vector<Building> buildings_;
-
     };
 }
 

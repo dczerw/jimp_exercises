@@ -7,7 +7,7 @@
 namespace academia
 {
     Serializer::Serializer(std::ostream *out) {
-    out_=out;
+        out_=out;
     }
 
     Room::Room(int id, std::string name, Room::Type type) {
@@ -64,7 +64,7 @@ namespace academia
         *out_<<"<"<<field_name<<">";
         for(const Serializable &c : value)
         {
-           c.Serialize(this);
+            c.Serialize(this);
         }
         *out_<<"<\\"<<field_name<<">";
     }
@@ -155,12 +155,28 @@ namespace academia
         //}
         std::experimental::optional<Building> building;
         return building;
-
     }
 
     int Building::Id() {
         return id_;
     }
 
+    void BuildingRepository::StoreAll(Serializer *serializer) const {
+        serializer->Header("building_repository");
+        std::vector<std::reference_wrapper<const Serializable>> tmp;
+        for(const auto &n : buildings_)
+        {
+            tmp.emplace_back(std::cref(n));
+        }
+        serializer->ArrayField("buildings",tmp);
+        serializer->Footer("building_repository");
+    }
 
+    void BuildingRepository::Add(const Building &building) {
+        buildings_.emplace_back(building);
+    }
+
+    BuildingRepository::BuildingRepository() {
+        buildings_.clear();
+    }
 }
