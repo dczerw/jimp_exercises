@@ -149,11 +149,10 @@ namespace academia
     }
 
     std::experimental::optional<Building> BuildingRepository::operator[](int index) const {
-        //if(index<buildings_.size()) {
-        //    std::experimental::optional<Building> building = std::experimental::make_optional(buildings_[index]);
-        //    return building;
-        //}
         std::experimental::optional<Building> building;
+        if(index<buildings_.size()) {
+            building = std::experimental::make_optional(buildings_[index]);
+        }
         return building;
     }
 
