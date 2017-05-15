@@ -153,7 +153,7 @@ namespace academia
         return building;
     }
 
-    int Building::Id() {
+    int Building::Id() const {
         return id_;
     }
 

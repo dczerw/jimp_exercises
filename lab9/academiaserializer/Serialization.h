@@ -93,7 +93,7 @@ namespace academia
     public:
         Building(int id, std::string name, std::vector<Room> rooms);
         virtual void Serialize(Serializer *serializer) const override;
-        int Id();
+        int Id() const;
     private:
         std::string name_;
         int id_;
