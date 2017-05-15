@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <sstream>
+#include <experimental/optional>
 
 namespace academia
 {
@@ -92,6 +93,7 @@ namespace academia
     public:
         Building(int id, std::string name, std::vector<Room> rooms);
         virtual void Serialize(Serializer *serializer) const override;
+        int Id();
     private:
         std::string name_;
         int id_;
@@ -99,6 +101,17 @@ namespace academia
 
     };
 
+    class BuildingRepository
+    {
+    public:
+        void StoreAll(Serializer *serializer) const{}
+        void Add(Serializable){}
+        BuildingRepository(const std::initializer_list<Building> &building);
+        std::experimental::optional<Building> operator[](int index) const;
+    private:
+        std::vector<Building> buildings_;
+
+    };
 }
 
 #endif //JIMP_EXERCISES_SERIALIZATION_H

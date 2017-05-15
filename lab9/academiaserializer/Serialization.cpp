@@ -141,4 +141,26 @@ namespace academia
         *out_<<"}";
     }
 
+    BuildingRepository::BuildingRepository(const std::initializer_list<Building> &building) {
+        for(const auto &n : building)
+        {
+            buildings_.emplace_back(n);
+        }
+    }
+
+    std::experimental::optional<Building> BuildingRepository::operator[](int index) const {
+        //if(index<buildings_.size()) {
+        //    std::experimental::optional<Building> building = std::experimental::make_optional(buildings_[index]);
+        //    return building;
+        //}
+        std::experimental::optional<Building> building;
+        return building;
+
+    }
+
+    int Building::Id() {
+        return id_;
+    }
+
+
 }
