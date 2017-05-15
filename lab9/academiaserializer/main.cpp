@@ -11,13 +11,18 @@ using namespace academia;
 
 int main()
 {
-    BuildingRepository repository{Building {101, "B-1", {Room {101301, "H-24", Room::Type::LECTURE_HALL},
-                                                         Room {102683, "021", Room::Type::COMPUTER_LAB}}}};
-    std::stringstream out;
-    JsonSerializer serializer(&out);
-    std::vector<std::reference_wrapper<const Serializable>> empty;
+    BuildingRepository repository{};
+    Building b1{101, "B-1", {Room {101301, "H-24", Room::Type::LECTURE_HALL}, Room {102683, "021", Room::Type::COMPUTER_LAB}}};
+    Building b2{102, "B-2", {}};
+    Building c2{103, "C-2", {Room {100110, "208", Room::Type::COMPUTER_LAB}}};
 
-    repository.StoreAll(&serializer);
+    repository.Add(b1);
+    repository.Add(b2);
+    repository.Add(c2);
+
+    std::experimental::optional<Building> ob1 = repository[101];
+
+    std::cout<<c2.Id();
 
     return 0;
 }

@@ -148,9 +148,14 @@ namespace academia
         }
     }
 
-    std::experimental::optional<Building> BuildingRepository::operator[](int index) const {
-        std::experimental::optional<Building> building = std::experimental::make_optional(buildings_[index]);
-        return building;
+    std::experimental::optional<Building> BuildingRepository::operator[](int id) const {
+        for (auto const &building : buildings_) {
+            if (building.Id() == id) {
+                return std::experimental::make_optional(building);
+            }
+        }
+
+        return std::experimental::optional<Building>();
     }
 
     int Building::Id() const {

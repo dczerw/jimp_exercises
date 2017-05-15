@@ -108,7 +108,7 @@ namespace academia
         BuildingRepository(const std::initializer_list<Building> &building);
         void StoreAll(Serializer *serializer) const;
         void Add(const Building &building);
-        std::experimental::optional<Building> operator[](int index) const;
+        std::experimental::optional<Building> operator[](int id) const;
     private:
         std::vector<Building> buildings_;
     };
