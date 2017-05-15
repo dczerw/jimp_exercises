@@ -34,6 +34,7 @@ TEST_F(XmlSerializerTest, SerializationOfSingleLectureHallRoom) {
   EXPECT_NO_THROW(room.Serialize(&serializer));
   EXPECT_EQ("<room><id>100167<\\id><name>H-24<\\name><type>LECTURE_HALL<\\type><\\room>"s, out.str());
 }
+/ta sama wersja lol
 
 TEST_F(XmlSerializerTest, SerializationOfSingleClassroom) {
   Room room {898910, "316", Room::Type::CLASSROOM};
