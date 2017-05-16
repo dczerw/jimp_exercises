@@ -56,7 +56,9 @@ namespace academia
     }
 
     void XmlSerializer::SerializableField(const std::string &field_name, const academia::Serializable &value) {
-        ;
+        *out_<<"<"<<field_name<<">";
+        value.Serialize(this);
+        *out_<<"<\\"<<field_name<<">";
     }
 
     void XmlSerializer::ArrayField(const std::string &field_name,
@@ -117,7 +119,9 @@ namespace academia
     }
 
     void JsonSerializer::SerializableField(const std::string &field_name, const academia::Serializable &value) {
-        Serializer::SerializableField(field_name, value);
+        *out_<<"\""<<field_name<<"\": ";
+        value.Serialize(this);
+        *out_<<", ";
     }
 
     void JsonSerializer::ArrayField(const std::string &field_name,
