@@ -40,8 +40,8 @@ namespace algo
     }
 
     std::vector<std::string> MapToString(const std::vector<double> &v) {
-        std::vector<std::string> result(v.size());
-        std::transform(v.begin(),v.end(),std::back_inserter(result),[](double arg){return std::to_string(arg);});
+        std::vector<std::string> result;
+        std::transform(v.begin(),v.end(),back_inserter(result),[](double arg){return std::to_string(arg);});
         return result;
     }
 
@@ -63,11 +63,12 @@ namespace algo
     }
 
     bool ContainsKey(const std::map<std::string, int> &v, const std::string &key) {
-        return false;
+        if(v.find(key)==v.end()) return false;
+        else return true;
     }
 
     bool ContainsValue(const std::map<std::string, int> &v, int value) {
-        return false;
+        ;
     }
 
     std::vector<std::string> RemoveDuplicates(const std::vector<std::string> &v) {
