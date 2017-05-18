@@ -7,11 +7,15 @@
 namespace algo
 {
     std::set<std::string> Keys(const std::map<std::string, int> &m) {
-        ;
+        std::set<std::string> w;
+        std::transform(m.begin(),m.end(),std::inserter(w,w.begin()),[](const auto &p){return p.first;});
+        return w;
     }
 
     std::vector<int> Values(const std::map<std::string, int> &m) {
-        return std::vector<int>();
+        std::vector<int> w;
+        std::transform(m.begin(),m.end(),std::back_inserter(w),[](const auto &p){return p.second;});
+        return w;
     }
 
     std::map<std::string, int> DivisableBy(const std::map<std::string, int> &m, int divisor) {
@@ -23,11 +27,12 @@ namespace algo
     }
 
     std::vector<int> Sort(const std::vector<int> &v) {
-       // std::sort(v.begin(),v.end());
-       // return v;
+        std::vector<int> w=v;
+        std::sort(w.begin(),w.end());
+        return w;
     }
 
-    void SortByFirstInPlace(std::vector<std::pair<int, int>> *v) {
+    void SortByFirstInPlace(std::vector<std::pair<int, int>> *v){
 
     }
 
@@ -68,7 +73,10 @@ namespace algo
     }
 
     bool ContainsValue(const std::map<std::string, int> &v, int value) {
-        ;
+        std::vector<int> w;
+        std::transform(v.begin(),v.end(),std::back_inserter(w),[](const auto &p){return p.second;});
+        if(std::find(w.begin(),w.end(),value)==w.end()) return false;
+        else return true;
     }
 
     std::vector<std::string> RemoveDuplicates(const std::vector<std::string> &v) {
