@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <cstdio>
+#include <set>
 
 namespace academia
 {
@@ -20,6 +21,12 @@ namespace academia
         int RoomId() const;
         int TimeSlot() const;
         int Year() const;
+        void setCourseid(int course_id);
+        void setTeacherId(int teacher_id);
+        void setRoomId(int room_id);
+        void setTimeSlot(int time_slot);
+        void setYear(int year);
+
     private:
         int course_id_;
         int teacher_id_;
@@ -40,6 +47,27 @@ namespace academia
         void InsertScheduleItem(const SchedulingItem &item);
         size_t Size() const;
         SchedulingItem operator[](int index) const;
+    };
+
+    class Scheduler
+    {
+    public:
+        virtual Schedule PrepareNewSchedule(const std::vector<int> &rooms, const std::map<int, std::vector<int>> &teacher_courses_assignment,
+        const std::map<int, std::set<int>> &courses_of_year, int n_time_slots){};
+    };
+
+    class GreedyScheduler : public Scheduler
+    {
+    public:
+        virtual Schedule PrepareNewSchedule(const std::vector<int> &rooms, const std::map<int, std::vector<int>> &teacher_courses_assignment,
+                                    const std::map<int, std::set<int>> &courses_of_year, int n_time_slots) override;
+    };
+
+    class NoViableSolutionFound : public std::runtime_error
+    {
+    public:
+        NoViableSolutionFound(std::string msg) : std::runtime_error(msg){};
+        virtual ~NoViableSolutionFound(){};
     };
 }
 
