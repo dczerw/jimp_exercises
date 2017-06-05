@@ -5,6 +5,7 @@
 #ifndef JIMP_EXERCISES_TEACHERHASH_H
 #define JIMP_EXERCISES_TEACHERHASH_H
 #include <string>
+#include <functional>
 
 namespace academia{
     class TeacherId{
@@ -20,9 +21,9 @@ namespace academia{
     class Teacher{
     public:
         Teacher(TeacherId id, std::string name,std::string place);
-        TeacherId Id();
-        std::string Name();
-        std::string Department();
+        TeacherId Id() const;
+        std::string Name() const;
+        std::string Department() const;
         bool operator!=(const Teacher teacher) const;
         bool operator==(const Teacher teacher) const;
     private:
