@@ -12,7 +12,7 @@ namespace tree{
     template<typename T>
     class Tree{
     public:
-        Tree(const T &data = T()){data_=data;};
+        Tree(const T &data = T());
         void Insert(const T &elem);
         T Value() const;
         size_t Size();
@@ -23,6 +23,7 @@ namespace tree{
         std::unique_ptr<Tree<T>> l_child_;
         std::unique_ptr<Tree<T>> r_child_;
         size_t size_;
+        int depth_;
 
     };
 
@@ -63,7 +64,20 @@ namespace tree{
 
     template<typename T>
     int Tree<T>::Depth(){
-        return 0;
+        int max_left=0, max_right=0;
+        if(l_child_==nullptr and r_child_==nullptr) return 1;
+        else if(l_child_->Depth()>=r_child_->Depth()) return 1+l_child_->Depth();
+        else return 1+r_child_->Depth();
+    }
+
+    template<typename T>
+    Tree<T>::Tree(const T &data){
+        data_=data;
+        size_=1;
+        l_child_ = nullptr;
+        r_child_ = nullptr;
+        depth_=1;
+
     }
 }
 
