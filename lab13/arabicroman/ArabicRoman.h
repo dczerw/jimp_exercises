@@ -1,0 +1,8 @@
+//
+// Created by Kuba on 06.06.2017.
+//
+
+#ifndef JIMP_EXERCISES_ARABICROMAN_H
+#define JIMP_EXERCISES_ARABICROMAN_H
+
+#endif //JIMP_EXERCISES_ARABICROMAN_H
