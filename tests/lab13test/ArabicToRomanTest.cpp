@@ -6,6 +6,6 @@
 #include <gtest/gtest.h>
 #include <string>
 
-TEST(ArabicToRomanTest, FactorialOf0ShouldBe1) {
-    EXPECT_EQ(1, Factorial(1));
+TEST(ArabicToRomanTest, ArabicToRomanBasic) {
+    EXPECT_EQ("I", arabicToRoman(1));
 }

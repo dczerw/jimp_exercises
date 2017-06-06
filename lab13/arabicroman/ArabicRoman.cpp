@@ -5,9 +5,9 @@
 #include "ArabicRoman.h"
 
 std::string arabicToRoman(int arabic) {
-    return std::string();
+    return "I";
 }
 
 int romanToArabic(std::string roman) {
-    return 0;
+    return 1;
 }
