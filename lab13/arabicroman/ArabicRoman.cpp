@@ -3,3 +3,11 @@
 //
 
 #include "ArabicRoman.h"
+
+std::string arabicToRoman(int arabic) {
+    return std::string();
+}
+
+int romanToArabic(std::string roman) {
+    return 0;
+}
